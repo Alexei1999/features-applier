@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "lib": ["dom", "esnext"],
+    "module": "esnext",
+    "esModuleInterop": true,
+    "declaration": true,
+    "declarationMap": true
+  },
+  "exclude": ["./node_modules"],
+  "include": ["./src/**/*"]
+}
