@@ -13,8 +13,8 @@ declare const applyFeatures: import("./models/model").FeaturesApplier<readonly [
         readonly name: "hooks";
         readonly apply: (...hooks: ((props: any) => Record<string, unknown>)[]) => (Component: import("react").ComponentType<{}>) => (props: any) => JSX.Element;
     }, {
-        readonly name: "hocs";
-        readonly apply: (...hocs: ((Component: import("react").ComponentType<any>) => import("react").ComponentType<any>)[]) => (Component: import("react").ComponentType<any>) => any;
+        readonly name: "HOCs";
+        readonly apply: (...HOCs: ((Component: import("react").ComponentType<any>) => import("react").ComponentType<any>)[]) => (Component: import("react").ComponentType<any>) => any;
     }], [{
         readonly name: "filtered";
         readonly pickProps: (props_0: (...args: any[]) => unknown, ...args: any[]) => {
@@ -36,8 +36,8 @@ declare const applyFeatures: import("./models/model").FeaturesApplier<readonly [
         readonly name: "hooks";
         readonly apply: (...hooks: ((props: any) => Record<string, unknown>)[]) => (Component: import("react").ComponentType<{}>) => (props: any) => JSX.Element;
     }, {
-        readonly name: "hocs";
-        readonly apply: (...hocs: ((Component: import("react").ComponentType<any>) => import("react").ComponentType<any>)[]) => (Component: import("react").ComponentType<any>) => any;
+        readonly name: "HOCs";
+        readonly apply: (...HOCs: ((Component: import("react").ComponentType<any>) => import("react").ComponentType<any>)[]) => (Component: import("react").ComponentType<any>) => any;
     }], [{
         readonly name: "filtered";
         readonly pickProps: (props_0: (...args: any[]) => unknown, ...args: any[]) => {

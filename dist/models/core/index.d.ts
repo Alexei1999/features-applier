@@ -4,8 +4,8 @@ export declare const core: {
         readonly name: "hooks";
         readonly apply: (...hooks: ((props: any) => Record<string, unknown>)[]) => (Component: import("react").ComponentType<{}>) => (props: any) => JSX.Element;
     }, {
-        readonly name: "hocs";
-        readonly apply: (...hocs: ((Component: import("react").ComponentType<any>) => import("react").ComponentType<any>)[]) => (Component: import("react").ComponentType<any>) => any;
+        readonly name: "HOCs";
+        readonly apply: (...HOCs: ((Component: import("react").ComponentType<any>) => import("react").ComponentType<any>)[]) => (Component: import("react").ComponentType<any>) => any;
     }];
     readonly helpers: {
         readonly pipeline: typeof import("../../lib/pipeline").pipeline;
