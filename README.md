@@ -61,11 +61,16 @@ const EnhancedComponent = applyFeatures((builder) => {
 
 // Usage in your application
 const App = () => <EnhancedComponent />;
+render(<App />, document.getElementById("root"));
 ```
 
-Below is an illustration of the component after applying the enhancements provided by `features-applier`:
+Below is a result of the component render after applying the enhancements provided by `features-applier`:
 
-<img src="https://github.com/Alexei1999/features-applier/raw/master/media/example-screenshot.png" alt="example-screenshot" width="500" />
+```html
+<div id="root">
+  <div id="hookId" class="hocClassName">Hello, Features Applier!</div>
+</div>
+```
 
 ## Advanced Usage
 
