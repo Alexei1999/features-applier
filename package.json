@@ -1,7 +1,7 @@
 {
   "name": "features-applier",
-  "version": "1.0.0",
-  "description": "The React library streamlines complex component development with modular enhancements.",
+  "version": "1.0.1",
+  "description": "A React library that streamlines the development of complex components through modular enhancements.",
   "main": "./dist/main.js",
   "types": "./dist/index.d.ts",
   "files": [
