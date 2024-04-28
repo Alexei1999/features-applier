@@ -18,11 +18,11 @@ export const appliers = [
       },
   },
   {
-    name: "hocs",
+    name: "HOCs",
     apply: (
-      ...hocs: ((
+      ...HOCs: ((
         Component: React.ComponentType<any>
       ) => React.ComponentType<any>)[]
-    ) => pipeline(...hocs),
+    ) => pipeline(...HOCs),
   },
 ] as const satisfies Readonly<Applier[]>;
