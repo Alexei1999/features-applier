@@ -63,14 +63,16 @@ const EnhancedComponent = applyFeatures((builder) => {
 const App = () => <EnhancedComponent />;
 ```
 
+Below is an illustration of the component after applying the enhancements provided by `features-applier`:
+
+<img src="https://github.com/Alexei1999/features-applier/raw/master/media/example-screenshot.png" alt="example-screenshot" width="500" />
+
 ## Advanced Usage
 
 Features Applier includes these APIs
 
 - `applyFeatures()`: powerful tool for enhancing components by applying specified features. It provides a structured way to integrate enhancements such as hooks and higher-order components (HOCs).
-- `createFeaturesApplier()`: versatile factory method that allows to create customizable `appliers` for any applier. It enables the configuration of unique sets of `appliers`, `modifiers`, and `builder` behaviors, making it ideal for tailor-made feature integration across diverse applications.
-
-For scenarios requiring conditional application of features or integration of multiple functionalities, the `applyFeatures` provides a flexible and powerful approach.
+- `createFeaturesApplier()`: versatile factory method that allows to assemble any set of appliers, modifiers, and builder behaviors, allowing for extensive customization of how features are applied. Can serve as a foundational tool for building adaptable and scalable feature applications, accommodating a wide array of application needs beyond standard React component enhancement.
 
 ### Conditional Feature Application
 
@@ -97,8 +99,10 @@ const withAuthentication = (Component) => (props) => {
 // Enhance the component conditionally
 const EnhancedUserComponent = applyFeatures((builder) => {
   builder
-    .applyHooks(withAuthentication) // Always apply the authentication HOC
-    .applyHOCs.filtered((props) => props.user === "Admin", useAdminFeatures); // Conditionally apply the admin hook
+    // Always apply the authentication HOC
+    .applyHooks(withAuthentication)
+    // Conditionally apply the admin hook
+    .applyHOCs.filtered((props) => props.user === "Admin", useAdminFeatures);
 })(UserComponent);
 
 // Usage of the enhanced component
@@ -107,7 +111,7 @@ const App = () => <EnhancedUserComponent isAuthenticated={true} user="Admin" />;
 
 ### Alternative Builder Mode
 
-The `builder` supports an alternative mode that is especially beneficial for integrating complex logic modifications in a controlled sequence. This mode, using the `"sequential"` runner, allows for precise feature application by chaining multiple modifiers in an explicit order.
+The `builder` supports an alternative mode that is especially beneficial for integrating complex modifications logic. This mode, using the `"sequential"` runner, allows for precise feature application by chaining multiple modifiers in an explicit order.
 
 ```typescript
 const EnhancedComponent = applyFeatures((builder) => {
@@ -115,7 +119,7 @@ const EnhancedComponent = applyFeatures((builder) => {
     .applyHooks.filtered((props) => props.isAdmin) // Check if the user is an admin
     .debounced(300) // Debounce modifier to avoid rapid re-executions
     .throttled(500) // Throttle modifier to limit how often it can run
-    .run(useEnhanceHook1, useEnhanceHook2); // Apply enhances
+    .run(useEnhanceHook); // Apply enhances
 })(BasicComponent);
 ```
 
