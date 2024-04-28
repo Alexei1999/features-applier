@@ -8,7 +8,7 @@ export type Applier<T extends any[] = any[]> = {
   ) => (component: React.ComponentType) => React.ComponentType<any>;
 };
 
-export type ModifierRunContext = {} & Record<string, string | boolean | number>;
+export type ModifierRunContext = Record<string, string | boolean | number>;
 export type ModifierRunOptions = {
   context: ModifierRunContext;
   applier: RunConfig["appliers"][number];
