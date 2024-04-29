@@ -45,16 +45,20 @@ npm add features-applier
 
 ## Usage
 
-The features-applier library is designed to simplify the development process by enhancing React components with additional functionalities in a modular and maintainable way. Below is an example of how to apply both basic and advanced features to a React component.
+The features-applier library is designed to simplify the development process by enhancing React components with additional functionalities in a modular and maintainable way. Below is an example of how to apply some features to a React component.
 
 ```typescript
 import { applyFeatures } from "features-applier";
 import React from "react";
 
 // Define a simple component that displays a message
-const GreetingComponent = ({ name }) => <div>Hello, {name}!</div>;
+const GreetingComponent = ({ name, greeting }) => (
+  <div>
+    {greeting}, {name}!
+  </div>
+);
 
-// Define a hook that adds greeting time based on the current hour
+// Define a hook that adds greeting time based on the current hour to the props
 const useTimeOfDayGreeting = (props) => {
   const hour = new Date().getHours();
   const timeOfDay = hour < 12 ? "Morning" : hour < 18 ? "Afternoon" : "Evening";
@@ -67,11 +71,7 @@ const withStyling = (Component) => (props) =>
 
 // Apply enhancements to the GreetingComponent using applyFeatures
 const EnhancedGreetingComponent = applyFeatures((builder) => {
-  builder
-    // Add dynamic greeting based on the time of day
-    .applyHooks(useTimeOfDayGreeting)
-    // Apply styling to the component
-    .applyHOCs(withStyling);
+  builder.applyHooks(useTimeOfDayGreeting).applyHOCs(withStyling);
 })(GreetingComponent);
 
 // Usage in your application
