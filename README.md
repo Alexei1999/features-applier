@@ -35,7 +35,7 @@ Prerequisites:
 
 - React 16.8 or higher
 - Node.js 12.х or higher
-- TypeScript (version 4.9 or higher)
+- TypeScript 4.9 or higher
 
 You can use any package manager:
 
@@ -49,16 +49,16 @@ The features-applier library is designed to simplify the development process by 
 
 ```typescript
 import { applyFeatures } from "features-applier";
-import React from "react";
 
 // Define a simple component that displays a message
-const GreetingComponent = ({ name, greeting }) => (
-  <div>
+const GreetingComponent = ({ name, greeting, ...props }) => (
+  <div {...props}>
     {greeting}, {name}!
   </div>
 );
 
-// Define a hook that adds greeting time based on the current hour to the props
+// Define a hook that adds greeting
+// time based on the current hour to the props
 const useTimeOfDayGreeting = (props) => {
   const hour = new Date().getHours();
   const timeOfDay = hour < 12 ? "Morning" : hour < 18 ? "Afternoon" : "Evening";
@@ -70,9 +70,11 @@ const withStyling = (Component) => (props) =>
   <Component {...props} style={{ color: "blue", fontWeight: "bold" }} />;
 
 // Apply enhancements to the GreetingComponent using applyFeatures
-const EnhancedGreetingComponent = applyFeatures((builder) => {
-  builder.applyHooks(useTimeOfDayGreeting).applyHOCs(withStyling);
-})(GreetingComponent);
+const EnhancedGreetingComponent = applyFeatures<{ greeting: never }>(
+  (builder) => {
+    builder.applyHOCs(withStyling).applyHooks(useTimeOfDayGreeting);
+  }
+)(GreetingComponent);
 
 // Usage in your application
 const App = () => <EnhancedGreetingComponent name="Username" />;
@@ -141,7 +143,7 @@ const EnhancedComponent = applyFeatures((builder) => {
     .applyHooks.filtered((props) => props.isAdmin)
     .debounced(300)
     .throttled(500)
-    // Applying enhancements now in the run function.
+    // Applying enhancements now in the run function
     .run(useEnhanceHook);
 })(BasicComponent);
 ```
@@ -234,6 +236,6 @@ const EnhancedComponent = applyFeatures((builder) => {
 })(BasicComponent);
 ```
 
-The createFeaturesApplier function transcends basic hooks and HOCs, enabling dynamic and scalable enhancements in React application architectures for improved modularity and maintainability.
+The `createFeaturesApplier` function transcends basic hooks and HOCs, enabling dynamic and scalable enhancements in React application architectures for improved modularity and maintainability.
 
 For more detailed examples, please see the [src/models/core](https://github.com/Alexei1999/features-applier/raw/master/src/models/core) directory of this project.

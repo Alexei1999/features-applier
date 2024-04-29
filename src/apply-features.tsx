@@ -14,9 +14,11 @@ import {
   ModifierRunContext,
   ModifierRunOptions,
   RunConfig,
+  Runner,
 } from "./models/model";
 
 export const createFeaturesApplier = <
+  T extends any = undefined,
   A extends Readonly<Applier[]> = [],
   M extends Readonly<Modifier[]> = [],
   R extends CreateRunners = () => [],
@@ -54,7 +56,8 @@ export const createFeaturesApplier = <
       >
   >,
   DR,
-  C["helpers"] & H
+  C["helpers"] & H,
+  T
 > => {
   const {
     appliers: coreAppliers,
@@ -84,10 +87,11 @@ export const createFeaturesApplier = <
 
   const defaultRunner = outerDefaultRunner ?? runners[0].name;
 
-  return function featuresApplier(featuresCallback) {
+  // FIXME: Broken types
+  return function featuresApplier(featuresCallback: any) {
     const runsConfig: RunConfig[] = [];
 
-    const runByName = (runnerName: string, builder: Builder): Builder => {
+    const getRunner = (runnerName: string) => {
       const runner = runners.find((runner) => runner.name === runnerName);
 
       if (!runner) {
@@ -96,52 +100,70 @@ export const createFeaturesApplier = <
         );
       }
 
-      const runnerConfig: RunConfig = {
-        runner: runner,
-        appliers: [],
-      };
-      runsConfig.push(runnerConfig);
-      const index = runsConfig.length - 1;
-
-      const setRunConfig = (nextRunConfig: Partial<RunConfig>) => {
-        runsConfig[index] = {
-          ...runnerConfig,
-          ...nextRunConfig,
-        };
-      };
-
-      const getCommonBuilder = createCommonBuilder({
-        appliers,
-        builder,
-        modifiers,
-        runConfig: runnerConfig,
-        setRunConfig,
-      });
-
-      const runHelpers = {
-        getCommonBuilder,
-        mergeWithDescriptors,
-      };
-      const runOptions = {
-        runConfig: runnerConfig,
-        builder,
-        helpers: runHelpers,
-        setRunConfig,
-      };
-
-      return runner.build(runOptions);
+      return runner;
     };
 
-    const builder: Builder = new Proxy(
-      (runner: string) => runByName(runner, builder),
+    const getBuilder: (runner: Runner, idx: number) => Builder = (
+      runner,
+      idx
+    ) =>
+      new Proxy(
+        {},
+        {
+          get(_, prop) {
+            const builder = getBuilder(runner, idx);
+
+            if (!runsConfig[idx]) {
+              const runnerConfig: RunConfig = {
+                runner: runner,
+                appliers: [],
+              };
+              runsConfig.push(runnerConfig);
+            }
+            const currentConfig: RunConfig = runsConfig[idx];
+
+            const setRunConfig = (nextRunConfig: Partial<RunConfig>) => {
+              runsConfig[idx] = {
+                ...currentConfig,
+                ...nextRunConfig,
+              };
+            };
+
+            const getCommonBuilder = createCommonBuilder({
+              appliers,
+              builder,
+              modifiers,
+              runConfig: currentConfig,
+              setRunConfig,
+            });
+
+            const runHelpers = {
+              getCommonBuilder,
+              mergeWithDescriptors,
+            };
+            const runOptions = {
+              runConfig: currentConfig,
+              builder,
+              helpers: runHelpers,
+              setRunConfig,
+            };
+
+            return runner.build(runOptions)[prop];
+          },
+        }
+      );
+    const initialBuilder: Builder = new Proxy(
+      (runnerName: string) => {
+        return getBuilder(getRunner(runnerName), runsConfig.length);
+      },
       {
         get(_, prop) {
-          return runByName(defaultRunner, builder)[prop];
+          return getBuilder(getRunner(defaultRunner), runsConfig.length)[prop];
         },
       }
     );
 
-    featuresCallback(builder, helpers);
+    featuresCallback(initialBuilder, helpers);
 
     const processedRunsConfig: RunConfig["appliers"] = (
       processBuild?.(runsConfig) ?? runsConfig
@@ -168,18 +190,18 @@ export const createFeaturesApplier = <
           } as ModifierRunContext;
         };
 
-        return (originComponent: React.ComponentType<any>) =>
+        return (originApplicant: any) =>
           pipeline(
             applier.item.apply(...applier.args),
             ...applier.modifiers.map(
-              (modifier) => (component: React.ComponentType<any>) =>
+              (modifier) => (applicant: any) =>
                 modifier.item.apply(...modifier.args)(
                   options,
                   setModifierContext
-                )(component, originComponent)
+                )(applicant, originApplicant)
             )
-          )(originComponent);
+          )(originApplicant);
       })
     );
-  };
+  } as any;
 };

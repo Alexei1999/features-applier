@@ -23,7 +23,7 @@ const commonBuilderDefault = {
   renameApplier: (name) => "apply" + capitalize(name),
   renameModifier: (name) => name,
   setModifierReturn: ({ builder, modifiersMap }) =>
-    mergeWithDescriptors(modifiersMap, builder),
+    mergeWithDescriptors(builder, modifiersMap),
   setModifierInit: ({ initModifier, modifiersMap }) =>
     mergeWithDescriptors(initModifier, modifiersMap),
   setApplierReturn: ({ builder }) => builder,

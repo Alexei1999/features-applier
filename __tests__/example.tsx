@@ -23,19 +23,13 @@ const useProp = (m: "!" | "!!" | "!!!") => (props: ComponentProps) => {
   return { ...props, w: "World" + m };
 };
 
-export const DefaultBuilderExample = applyFeatures<
-  Record<string, unknown>,
-  Record<string, unknown>
->((builder) => {
+export const DefaultBuilderExample = applyFeatures((builder) => {
   builder
     .applyHooks(useProp("!"))
     .applyHOCs.filtered(() => true, WithRedColor, WithUnderline);
 })(Component);
 
-export const DirectBuilderExample = applyFeatures<
-  Record<string, unknown>,
-  Record<string, unknown>
->((builder) => {
+export const DirectBuilderExample = applyFeatures((builder) => {
   builder("direct")
     .applyHooks(useProp("!!"))
     .applyHOCs.filtered(
@@ -45,10 +39,7 @@ export const DirectBuilderExample = applyFeatures<
     );
 })(Component);
 
-export const SequentialBuilderExample = applyFeatures<
-  Record<string, unknown>,
-  Record<string, unknown>
->((builder) => {
+export const SequentialBuilderExample = applyFeatures((builder) => {
   builder("sequential")
     .applyHooks(useProp("!!!"))
     .applyHOCs.filtered(() => false)

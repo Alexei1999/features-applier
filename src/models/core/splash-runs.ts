@@ -24,7 +24,7 @@ export const splashRuns = (runsConfig: RunConfig[]): RunConfig[] => {
         }
 
         return [
-          ...appliers.slice(0, index - 1),
+          ...appliers.slice(0, -1),
           {
             ...lastApplier,
             args: [...applier.args, ...lastApplier.args],
@@ -50,7 +50,7 @@ export const splashRuns = (runsConfig: RunConfig[]): RunConfig[] => {
     }
 
     return [
-      ...runsConfig.slice(0, index - 1),
+      ...runsConfig.slice(0, -1),
       {
         ...lastRun,
         appliers: [...runConfig.appliers, ...lastRun.appliers],
