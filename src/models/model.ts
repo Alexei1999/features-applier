@@ -99,9 +99,7 @@ export declare type FeaturesApplier<
     helpers: H
   ) => void
 ) => T extends undefined
-  ? <P>(
-      component: React.ComponentType<P>
-    ) => React.ComponentType<
+  ? <P>(component: React.ComponentType<P>) => React.ComponentType<
       (CP extends {} ? CP : Omit<P, keyof EP>) & {
         [K in keyof EP as EP[K] extends never ? never : K]: EP[K];
       }
