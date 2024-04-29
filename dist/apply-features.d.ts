@@ -1,8 +1,8 @@
 import React from "react";
 import { pipeline } from "./lib/pipeline";
 import { core } from "./models/core/index";
-import { Applier, CreateRunners, FeatureApplierCore, FeaturesApplier, Modifier, RunConfig } from "./models/model";
-export declare const createFeaturesApplier: <A extends readonly Applier[] = [], M extends readonly Modifier[] = [], R extends CreateRunners = () => [], H = Record<string, never>, C extends FeatureApplierCore = {
+import { Applier, CreateRunners, FeatureApplierCore, FeaturesApplier, Modifier, RunConfig, Runner } from "./models/model";
+export declare const createFeaturesApplier: <T extends unknown = undefined, A extends readonly Applier[] = [], M extends readonly Modifier[] = [], R extends CreateRunners = () => [], H = Record<string, never>, C extends FeatureApplierCore = {
     readonly appliers: readonly [{
         readonly name: "hooks";
         readonly apply: (...hooks: ((props: any) => Record<string, unknown>)[]) => (Component: React.ComponentType<{}>) => (props: any) => JSX.Element;
@@ -24,8 +24,8 @@ export declare const createFeaturesApplier: <A extends readonly Applier[] = [], 
     readonly getRunners: <A_1 extends readonly Applier[], M_1 extends readonly Modifier[]>() => readonly [{
         readonly name: "sequential";
         readonly build: ({ helpers: { getCommonBuilder } }: {
-            runConfig: RunConfig<import("./models/model").Runner<any>, Applier<any[]>, any[]>;
-            setRunConfig: (nextRunConfig: Partial<RunConfig<import("./models/model").Runner<any>, Applier<any[]>, any[]>>) => void;
+            runConfig: RunConfig<Runner<any>, Applier<any[]>, any[]>;
+            setRunConfig: (nextRunConfig: Partial<RunConfig<Runner<any>, Applier<any[]>, any[]>>) => void;
             builder: any;
             helpers: Record<string, Function> & {
                 getCommonBuilder: (options?: import("./lib/create-common-builder").CommonBuilderProps) => any;
@@ -34,20 +34,20 @@ export declare const createFeaturesApplier: <A extends readonly Applier[] = [], 
     }, {
         readonly name: "direct";
         readonly build: ({ helpers: { getCommonBuilder } }: {
-            runConfig: RunConfig<import("./models/model").Runner<any>, Applier<any[]>, any[]>;
-            setRunConfig: (nextRunConfig: Partial<RunConfig<import("./models/model").Runner<any>, Applier<any[]>, any[]>>) => void;
+            runConfig: RunConfig<Runner<any>, Applier<any[]>, any[]>;
+            setRunConfig: (nextRunConfig: Partial<RunConfig<Runner<any>, Applier<any[]>, any[]>>) => void;
             builder: any;
             helpers: Record<string, Function> & {
                 getCommonBuilder: (options?: import("./lib/create-common-builder").CommonBuilderProps) => any;
             };
         }) => import("./models/core/runners").DirectBuilder<A_1, M_1>;
-        readonly editRunConfig: (runConfig: RunConfig<import("./models/model").Runner<any>, Applier<any[]>, any[]>) => {
+        readonly editRunConfig: (runConfig: RunConfig<Runner<any>, Applier<any[]>, any[]>) => {
             appliers: {
                 args: any;
                 modifiers: any[];
                 item: Applier<any[]>;
             }[];
-            runner: import("./models/model").Runner<any>;
+            runner: Runner<any>;
         };
     }];
 }, DR extends [...ReturnType<R>, ...ReturnType<C["getRunners"]>][number]["name"] = [...ReturnType<R>, ...ReturnType<C["getRunners"]>][0]["name"]>({ defaultRunner: outerDefaultRunner, appliers: outerAppliers, helpers: outerHelpers, modifiers: outerModifiers, getRunners: outerRunnersGetter, core: outerCore, processBuild, }?: {
@@ -61,8 +61,8 @@ export declare const createFeaturesApplier: <A extends readonly Applier[] = [], 
 } & Record<string, boolean | string | number>) => FeaturesApplier<readonly [{
     readonly name: "sequential";
     readonly build: ({ helpers: { getCommonBuilder } }: {
-        runConfig: RunConfig<import("./models/model").Runner<any>, Applier<any[]>, any[]>;
-        setRunConfig: (nextRunConfig: Partial<RunConfig<import("./models/model").Runner<any>, Applier<any[]>, any[]>>) => void;
+        runConfig: RunConfig<Runner<any>, Applier<any[]>, any[]>;
+        setRunConfig: (nextRunConfig: Partial<RunConfig<Runner<any>, Applier<any[]>, any[]>>) => void;
         builder: any;
         helpers: Record<string, Function> & {
             getCommonBuilder: (options?: import("./lib/create-common-builder").CommonBuilderProps) => any;
@@ -71,20 +71,20 @@ export declare const createFeaturesApplier: <A extends readonly Applier[] = [], 
 }, {
     readonly name: "direct";
     readonly build: ({ helpers: { getCommonBuilder } }: {
-        runConfig: RunConfig<import("./models/model").Runner<any>, Applier<any[]>, any[]>;
-        setRunConfig: (nextRunConfig: Partial<RunConfig<import("./models/model").Runner<any>, Applier<any[]>, any[]>>) => void;
+        runConfig: RunConfig<Runner<any>, Applier<any[]>, any[]>;
+        setRunConfig: (nextRunConfig: Partial<RunConfig<Runner<any>, Applier<any[]>, any[]>>) => void;
         builder: any;
         helpers: Record<string, Function> & {
             getCommonBuilder: (options?: import("./lib/create-common-builder").CommonBuilderProps) => any;
         };
     }) => import("./models/core/runners").DirectBuilder<[...C["appliers"], ...A], [...C["modifiers"], ...M]>;
-    readonly editRunConfig: (runConfig: RunConfig<import("./models/model").Runner<any>, Applier<any[]>, any[]>) => {
+    readonly editRunConfig: (runConfig: RunConfig<Runner<any>, Applier<any[]>, any[]>) => {
         appliers: {
             args: any;
             modifiers: any[];
             item: Applier<any[]>;
         }[];
-        runner: import("./models/model").Runner<any>;
+        runner: Runner<any>;
     };
-}], DR, C["helpers"] & H>;
+}], DR, C["helpers"] & H, T>;
 //# sourceMappingURL=apply-features.d.ts.map
