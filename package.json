@@ -1,6 +1,6 @@
 {
   "name": "features-applier",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A React library that streamlines the development of complex React components through modularity, composability and maintainability.",
   "main": "./dist/main.js",
   "types": "./dist/index.d.ts",
@@ -24,7 +24,6 @@
     "dynamic-rendering",
     "component-enhancement",
     "complex-components",
-    "react-architecture",
     "modular-react"
   ],
   "scripts": {
