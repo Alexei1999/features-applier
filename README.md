@@ -45,36 +45,46 @@ npm add features-applier
 
 ## Usage
 
+The features-applier library is designed to simplify the development process by enhancing React components with additional functionalities in a modular and maintainable way. Below is an example of how to apply both basic and advanced features to a React component.
+
 ```typescript
 import { applyFeatures } from "features-applier";
 import React from "react";
 
-// Define your base component
-const BasicComponent = (props) => (
-  <div {...props}>Hello, Features Applier!</div>
-);
+// Define a simple component that displays a message
+const GreetingComponent = ({ name }) => <div>Hello, {name}!</div>;
 
-// Define hooks and HOCs providing some enhancements
-const useCustomHook = (props) => ({ ...props, id: "hookId" });
-const withHigherOrder = (Component) => (props) =>
-  <Component {...props} className="hocClassName" />;
+// Define a hook that adds greeting time based on the current hour
+const useTimeOfDayGreeting = (props) => {
+  const hour = new Date().getHours();
+  const timeOfDay = hour < 12 ? "Morning" : hour < 18 ? "Afternoon" : "Evening";
+  return { ...props, greeting: `Good ${timeOfDay}` };
+};
 
-// Apply them to your component using applyFeatures
-const EnhancedComponent = applyFeatures((builder) => {
-  builder.applyHooks(useCustomHook).applyHOCs(withHigherOrder);
-})(BasicComponent);
+// Define a HOC that adds styling to the component
+const withStyling = (Component) => (props) =>
+  <Component {...props} style={{ color: "blue", fontWeight: "bold" }} />;
+
+// Apply enhancements to the GreetingComponent using applyFeatures
+const EnhancedGreetingComponent = applyFeatures((builder) => {
+  builder
+    // Add dynamic greeting based on the time of day
+    .applyHooks(useTimeOfDayGreeting)
+    // Apply styling to the component
+    .applyHOCs(withStyling);
+})(GreetingComponent);
 
 // Usage in your application
-const App = () => <EnhancedComponent />;
+const App = () => <EnhancedGreetingComponent name="Username" />;
 
 render(<App />, document.getElementById("root"));
 ```
 
-Below is a result of the component render after applying the enhancements provided by `features-applier`:
+This enhanced component renders a personalized greeting based on the time of day, and applies specific styling. Below is the expected output in your application:
 
 ```html
 <div id="root">
-  <div id="hookId" class="hocClassName">Hello, Features Applier!</div>
+  <div style="color: blue; font-weight: bold">Good Morning, Username!</div>
 </div>
 ```
 
