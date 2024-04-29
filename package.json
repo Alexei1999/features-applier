@@ -12,10 +12,21 @@
     "type": "git",
     "url": "git+https://github.com/Alexei1999/features-applier.git"
   },
-  "build": "tsc",
-  "directories": {
-    "test": "test"
+  "bugs": {
+    "url": "https://github.com/Alexei1999/features-applier/issues"
   },
+  "keywords": [
+    "react",
+    "react-components",
+    "features-applier",
+    "react-hooks",
+    "react-hoc",
+    "dynamic-rendering",
+    "component-enhancement",
+    "complex-components",
+    "react-architecture",
+    "modular-react"
+  ],
   "scripts": {
     "build": "webpack --mode production"
   },
