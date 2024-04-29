@@ -15,6 +15,7 @@
   - [Conditional Feature Application](#conditional-feature-application)
   - [Alternative Builder Mode](#alternative-builder-mode)
   - [Advanced Customization](#advanced-customization)
+  - [Example: Creating a Custom Runner](#example-creating-a-custom-runner)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
