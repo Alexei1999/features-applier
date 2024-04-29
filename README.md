@@ -112,7 +112,8 @@ const EnhancedUserComponent = applyFeatures((builder) => {
   builder
     // Always apply the authentication HOC
     .applyHooks(withAuthentication)
-    // Conditionally apply the admin hook based on the condition in the first parameter
+    // Conditionally apply the admin hook
+    // based on the condition in the first parameter
     .applyHOCs.filtered((props) => props.user === "Admin", useAdminFeatures);
 })(UserComponent);
 
@@ -130,7 +131,8 @@ const EnhancedComponent = applyFeatures((builder) => {
     .applyHooks.filtered((props) => props.isAdmin)
     .debounced(300)
     .throttled(500)
-    .run(useEnhanceHook); // Applying enhancements now in the run function.
+    // Applying enhancements now in the run function.
+    .run(useEnhanceHook);
 })(BasicComponent);
 ```
 
@@ -158,10 +160,10 @@ const customApplyFeatures = createFeaturesApplier({
     /* Custom runners logic */
   ],
   helpers: {
-    /* Custom functions that will be available throughout the applyFeatures */
+    /* Custom functions */
   },
   core: {
-    /* Default set runners, appliers and modifiers */
+    /* Default set of runners, appliers and modifiers */
   },
 });
 ```
@@ -181,8 +183,8 @@ const getRunners = () => [
 
       return {
         applyAny: (...hooks: any[]) => {
-          // Set appliers
           setRunConfig({
+            // Set appliers
             appliers: [
               ...runConfig.appliers,
               {
@@ -196,7 +198,7 @@ const getRunners = () => [
             ],
           });
 
-          // return the builder for chaining
+          // Return the builder for chaining
           return builder;
         },
       } as SimpleBuilder;
