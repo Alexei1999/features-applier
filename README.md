@@ -30,7 +30,13 @@ Features Applier is based on a systematic approach designed to enhance the devel
 
 ## Installation
 
-> You can use any package manager
+Prerequisites:
+
+- React 16.8 or higher
+- Node.js 12.х or higher
+- TypeScript (version 4.9 or higher)
+
+You can use any package manager:
 
 ```sh
 npm add features-applier
@@ -54,13 +60,12 @@ const withHigherOrder = (Component) => (props) =>
 
 // Apply them to your component using applyFeatures
 const EnhancedComponent = applyFeatures((builder) => {
-  builder
-    .applyHooks(useCustomHook) // Apply custom hook
-    .applyHOCs(withHigherOrder); // Apply HOC
+  builder.applyHooks(useCustomHook).applyHOCs(withHigherOrder);
 })(BasicComponent);
 
 // Usage in your application
 const App = () => <EnhancedComponent />;
+
 render(<App />, document.getElementById("root"));
 ```
 
@@ -81,7 +86,7 @@ Features Applier includes these APIs
 
 ### Conditional Feature Application
 
-Using conditional logic, you can dynamically apply hooks and HOCs based on the props or the component's state. This is particularly useful for features that should only be active under specific conditions, such as user permissions or application states.
+Using conditional logic, you can dynamically apply hooks and HOCs based on the props or the component's state with `filtered` modifier. This is particularly useful for features that should only be active under specific conditions, such as user permissions or application states.
 
 ```typescript
 const UserComponent = ({ user, children }) => (
@@ -106,7 +111,7 @@ const EnhancedUserComponent = applyFeatures((builder) => {
   builder
     // Always apply the authentication HOC
     .applyHooks(withAuthentication)
-    // Conditionally apply the admin hook
+    // Conditionally apply the admin hook based on the condition in the first parameter
     .applyHOCs.filtered((props) => props.user === "Admin", useAdminFeatures);
 })(UserComponent);
 
@@ -116,15 +121,15 @@ const App = () => <EnhancedUserComponent isAuthenticated={true} user="Admin" />;
 
 ### Alternative Builder Mode
 
-The `builder` supports an alternative mode that is especially beneficial for integrating complex modifications logic. This mode, using the `"sequential"` runner, allows for precise feature application by chaining multiple modifiers in an explicit order.
+The `builder` supports an alternative mode of applying modifiers that is especially beneficial for integrating complex modifications logic. This mode, using the `"sequential"` runner, allows for precise feature application by chaining multiple modifiers in an explicit order.
 
 ```typescript
 const EnhancedComponent = applyFeatures((builder) => {
   builder("sequential")
-    .applyHooks.filtered((props) => props.isAdmin) // Check if the user is an admin
-    .debounced(300) // Debounce modifier to avoid rapid re-executions
-    .throttled(500) // Throttle modifier to limit how often it can run
-    .run(useEnhanceHook); // Apply enhances
+    .applyHooks.filtered((props) => props.isAdmin)
+    .debounced(300)
+    .throttled(500)
+    .run(useEnhanceHook); // Applying enhancements now in the run function.
 })(BasicComponent);
 ```
 
@@ -160,4 +165,62 @@ const customApplyFeatures = createFeaturesApplier({
 });
 ```
 
-For more detailed examples of using `createFeaturesApplier` please see the files in the `src/models/core` directory of this project.
+### Example: Creating a Custom Runner
+
+```typescript
+import { createFeaturesApplier } from "features-applier";
+
+const getRunners = () => [
+  {
+    name: "simple",
+    build: ({ builder, runConfig, setRunConfig }) => {
+      export type SimpleBuilder = {
+        applyAny: (...items: any[]) => SimpleBuilder;
+      };
+
+      return {
+        applyAny: (...hooks: any[]) => {
+          // Set appliers
+          setRunConfig({
+            appliers: [
+              ...runConfig.appliers,
+              {
+                args: hooks,
+                modifiers: [],
+                item: {
+                  name: "any",
+                  apply: (...HOCs: any[]) => pipeline(...HOCs),
+                },
+              },
+            ],
+          });
+
+          // return the builder for chaining
+          return builder;
+        },
+      } as SimpleBuilder;
+    },
+  },
+];
+
+const applyFeatures = createFeaturesApplier({
+  // Your configuration is here
+  getRunners: getRunners,
+});
+```
+
+Now, you can use your `simple` runner to apply features to components. Here's how you might use it:
+
+```typescript
+const useRawEnhancement = (Component) => (props) => {
+  return <Component {...props} />;
+};
+
+const EnhancedComponent = applyFeatures((builder) => {
+  builder("simple").applyAny(useRawEnhancement);
+})(BasicComponent);
+```
+
+The createFeaturesApplier function transcends basic hooks and HOCs, enabling dynamic and scalable enhancements in React application architectures for improved modularity and maintainability.
+
+For more detailed examples, please see the [src/models/core](https://github.com/Alexei1999/features-applier/raw/master/src/models/core) directory of this project.

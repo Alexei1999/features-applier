@@ -159,7 +159,9 @@ export const createFeaturesApplier = <
           context,
           applier,
         };
-        const setContext = (nextContext: Partial<ModifierRunContext>) => {
+        const setModifierContext = (
+          nextContext: Partial<ModifierRunContext>
+        ) => {
           options.context = {
             ...options.context,
             ...nextContext,
@@ -171,10 +173,10 @@ export const createFeaturesApplier = <
             applier.item.apply(...applier.args),
             ...applier.modifiers.map(
               (modifier) => (component: React.ComponentType<any>) =>
-                modifier.item.apply(...modifier.args)(options, setContext)(
-                  component,
-                  originComponent
-                )
+                modifier.item.apply(...modifier.args)(
+                  options,
+                  setModifierContext
+                )(component, originComponent)
             )
           )(originComponent);
       })
