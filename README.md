@@ -135,7 +135,7 @@ const App = () => <EnhancedUserComponent isAuthenticated={true} user="Admin" />;
 
 ### Alternative Builder Mode
 
-The `builder` supports an alternative mode of applying modifiers that is especially beneficial for integrating complex modifications logic. This mode, using the `"sequential"` runner, allows for precise feature application by chaining multiple modifiers in an explicit order.
+The `builder` supports an alternative mode of applying modifiers that is especially beneficial for integrating complex modifications logic. This mode, using the `"sequential" runner`, allows for precise feature application by chaining multiple modifiers in an explicit order.
 
 ```typescript
 const EnhancedComponent = applyFeatures((builder) => {
