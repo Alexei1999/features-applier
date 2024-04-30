@@ -4,6 +4,7 @@ import { Modifier } from "../model";
 
 export const modifiers = [
   {
+    priority: 100,
     name: "filtered",
     pickProps: (...props: [(...args: any[]) => unknown, ...args: any[]]) => {
       const [filter, ...nextProps] = props;

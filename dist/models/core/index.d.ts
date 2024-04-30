@@ -11,6 +11,7 @@ export declare const core: {
         readonly pipeline: typeof import("../../lib/pipeline").pipeline;
     };
     readonly modifiers: readonly [{
+        readonly priority: 100;
         readonly name: "filtered";
         readonly pickProps: (props_0: (...args: any[]) => unknown, ...args: any[]) => {
             modifierProps: ((...args: any[]) => unknown)[];

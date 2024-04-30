@@ -16,6 +16,7 @@ export type ModifierRunOptions = {
 
 export type Modifier<T extends any[] = any[]> = {
   name: string;
+  priority?: number;
   pickProps?: (...props: any[]) => { modifierProps?: T; nextProps: any[] };
   apply: (
     ...props: T

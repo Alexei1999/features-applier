@@ -16,6 +16,7 @@ declare const applyFeatures: import("./models/model").FeaturesApplier<readonly [
         readonly name: "HOCs";
         readonly apply: (...HOCs: ((Component: import("react").ComponentType<any>) => import("react").ComponentType<any>)[]) => (Component: import("react").ComponentType<any>) => any;
     }], [{
+        readonly priority: 100;
         readonly name: "filtered";
         readonly pickProps: (props_0: (...args: any[]) => unknown, ...args: any[]) => {
             modifierProps: ((...args: any[]) => unknown)[];
@@ -39,6 +40,7 @@ declare const applyFeatures: import("./models/model").FeaturesApplier<readonly [
         readonly name: "HOCs";
         readonly apply: (...HOCs: ((Component: import("react").ComponentType<any>) => import("react").ComponentType<any>)[]) => (Component: import("react").ComponentType<any>) => any;
     }], [{
+        readonly priority: 100;
         readonly name: "filtered";
         readonly pickProps: (props_0: (...args: any[]) => unknown, ...args: any[]) => {
             modifierProps: ((...args: any[]) => unknown)[];

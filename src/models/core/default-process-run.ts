@@ -1,6 +1,7 @@
+import { pipeline } from "../../lib/pipeline";
 import { RunConfig } from "../model";
 
-export const splashRuns = (runsConfig: RunConfig[]): RunConfig[] => {
+const splashRuns = (runsConfig: RunConfig[]): RunConfig[] => {
   return runsConfig.reduce((runsConfig, runConfig, index) => {
     const splashedFeatures = runConfig.appliers.reduce(
       (appliers, applier, index) => {
@@ -34,6 +35,7 @@ export const splashRuns = (runsConfig: RunConfig[]): RunConfig[] => {
       },
       [] as RunConfig["appliers"]
     );
+
     const splashedRun: RunConfig = {
       ...runConfig,
       appliers: splashedFeatures,
@@ -58,3 +60,17 @@ export const splashRuns = (runsConfig: RunConfig[]): RunConfig[] => {
     ];
   }, [] as RunConfig[]);
 };
+
+const sortModifiers = (runsConfig: RunConfig[]): RunConfig[] => {
+  return runsConfig.map((runConfig) => ({
+    ...runConfig,
+    appliers: runConfig.appliers.map((feature) => ({
+      ...feature,
+      modifiers: feature.modifiers.sort(
+        (m1, m2) => m1.item.priority ?? 0 - m2.item.priority ?? 0
+      ),
+    })),
+  }));
+};
+
+export const defaultProcessRun = pipeline(splashRuns, sortModifiers);

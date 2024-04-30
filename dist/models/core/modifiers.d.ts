@@ -1,5 +1,6 @@
 import React from "react";
 export declare const modifiers: readonly [{
+    readonly priority: 100;
     readonly name: "filtered";
     readonly pickProps: (props_0: (...args: any[]) => unknown, ...args: any[]) => {
         modifierProps: ((...args: any[]) => unknown)[];

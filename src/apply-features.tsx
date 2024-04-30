@@ -3,7 +3,7 @@ import { MergeRunners, mergeWithDescriptors } from "./lib/common";
 import { createCommonBuilder } from "./lib/create-common-builder";
 import { pipeline } from "./lib/pipeline";
 import { core } from "./models/core/index";
-import { splashRuns as defaultProcessBuild } from "./models/core/splash-runs";
+import { defaultProcessRun } from "./models/core/default-process-run";
 import {
   Applier,
   Builder,
@@ -35,7 +35,7 @@ export const createFeaturesApplier = <
   modifiers: outerModifiers,
   getRunners: outerRunnersGetter,
   core: outerCore = core as any,
-  processBuild = defaultProcessBuild,
+  processBuild = defaultProcessRun,
 }: {
   defaultRunner?: DR;
   appliers?: A;
