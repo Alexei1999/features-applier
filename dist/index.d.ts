@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import { createFeaturesApplier } from "./apply-features";
+import { createFeaturesApplier } from "./create-features-applier";
 declare const applyFeatures: import("./models/model").FeaturesApplier<readonly [{
     readonly name: "sequential";
     readonly build: ({ helpers: { getCommonBuilder } }: {
@@ -58,6 +58,6 @@ declare const applyFeatures: import("./models/model").FeaturesApplier<readonly [
     };
 }], "direct", {
     readonly pipeline: typeof import("./lib/pipeline").pipeline;
-} & Record<string, never>, undefined>;
+} & Record<string, never>>;
 export { applyFeatures, createFeaturesApplier };
 //# sourceMappingURL=index.d.ts.map

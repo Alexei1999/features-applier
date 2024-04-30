@@ -1,4 +1,3 @@
-import React from "react";
 import { MergeRunners, mergeWithDescriptors } from "./lib/common";
 import { createCommonBuilder } from "./lib/create-common-builder";
 import { pipeline } from "./lib/pipeline";
@@ -18,7 +17,6 @@ import {
 } from "./models/model";
 
 export const createFeaturesApplier = <
-  T extends any = undefined,
   A extends Readonly<Applier[]> = [],
   M extends Readonly<Modifier[]> = [],
   R extends CreateRunners = () => [],
@@ -56,8 +54,7 @@ export const createFeaturesApplier = <
       >
   >,
   DR,
-  C["helpers"] & H,
-  T
+  C["helpers"] & H
 > => {
   const {
     appliers: coreAppliers,
@@ -88,7 +85,7 @@ export const createFeaturesApplier = <
   const defaultRunner = outerDefaultRunner ?? runners[0].name;
 
   // FIXME: Broken types
-  return function featuresApplier(featuresCallback: any) {
+  return function featuresApplier(featuresCallback) {
     const runsConfig: RunConfig[] = [];
 
     const getRunner = (runnerName: string) => {
@@ -190,7 +187,6 @@ export const createFeaturesApplier = <
           } as ModifierRunContext;
         };
 
-        // FIXME: Broken types
         return (originElement: any) =>
           pipeline(
             applier.item.apply(...applier.args),
@@ -204,5 +200,5 @@ export const createFeaturesApplier = <
           )(originElement);
       })
     );
-  } as any;
+  };
 };

@@ -92,17 +92,14 @@ export type Builder<
 export declare type FeaturesApplier<
   R extends Readonly<Runner[]>,
   DR extends R[number]["name"] | string,
-  H,
-  T extends any = undefined
+  H
 > = <EP, CP = unknown>(
   featuresCallback: (
     builder: Builder<R, Extract<R[number], { name: DR }>>,
     helpers: H
   ) => void
-) => T extends undefined
-  ? <P>(component: React.ComponentType<P>) => React.ComponentType<
-      (CP extends {} ? CP : Omit<P, keyof EP>) & {
-        [K in keyof EP as EP[K] extends never ? never : K]: EP[K];
-      }
-    >
-  : T;
+) => <P>(component: React.ComponentType<P>) => React.ComponentType<
+  (CP extends {} ? CP : Omit<P, keyof EP>) & {
+    [K in keyof EP as EP[K] extends never ? never : K]: EP[K];
+  }
+>;

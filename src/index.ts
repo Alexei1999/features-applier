@@ -1,4 +1,4 @@
-import { createFeaturesApplier } from "./apply-features";
+import { createFeaturesApplier } from "./create-features-applier";
 
 const applyFeatures = createFeaturesApplier({
   defaultRunner: "direct",

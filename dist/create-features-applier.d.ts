@@ -1,14 +1,14 @@
-import React from "react";
+/// <reference types="react" />
 import { pipeline } from "./lib/pipeline";
 import { core } from "./models/core/index";
 import { Applier, CreateRunners, FeatureApplierCore, FeaturesApplier, Modifier, RunConfig, Runner } from "./models/model";
-export declare const createFeaturesApplier: <T extends unknown = undefined, A extends readonly Applier[] = [], M extends readonly Modifier[] = [], R extends CreateRunners = () => [], H = Record<string, never>, C extends FeatureApplierCore = {
+export declare const createFeaturesApplier: <A extends readonly Applier[] = [], M extends readonly Modifier[] = [], R extends CreateRunners = () => [], H = Record<string, never>, C extends FeatureApplierCore = {
     readonly appliers: readonly [{
         readonly name: "hooks";
-        readonly apply: (...hooks: ((props: any) => Record<string, unknown>)[]) => (Component: React.ComponentType<{}>) => (props: any) => JSX.Element;
+        readonly apply: (...hooks: ((props: any) => Record<string, unknown>)[]) => (Component: import("react").ComponentType<{}>) => (props: any) => JSX.Element;
     }, {
         readonly name: "HOCs";
-        readonly apply: (...HOCs: ((Component: React.ComponentType<any>) => React.ComponentType<any>)[]) => (Component: React.ComponentType<any>) => any;
+        readonly apply: (...HOCs: ((Component: import("react").ComponentType<any>) => import("react").ComponentType<any>)[]) => (Component: import("react").ComponentType<any>) => any;
     }];
     readonly helpers: {
         readonly pipeline: typeof pipeline;
@@ -20,7 +20,7 @@ export declare const createFeaturesApplier: <T extends unknown = undefined, A ex
             modifierProps: ((...args: any[]) => unknown)[];
             nextProps: any[];
         };
-        readonly apply: (filter: (...args: any[]) => unknown) => () => (Component: React.ComponentType<{}>, OriginComponent: React.ComponentType<{}>) => (props: any) => JSX.Element;
+        readonly apply: (filter: (...args: any[]) => unknown) => () => (Component: import("react").ComponentType<{}>, OriginComponent: import("react").ComponentType<{}>) => (props: any) => JSX.Element;
     }];
     readonly getRunners: <A_1 extends readonly Applier[], M_1 extends readonly Modifier[]>() => readonly [{
         readonly name: "sequential";
@@ -87,5 +87,5 @@ export declare const createFeaturesApplier: <T extends unknown = undefined, A ex
         }[];
         runner: Runner<any>;
     };
-}], DR, C["helpers"] & H, T>;
-//# sourceMappingURL=apply-features.d.ts.map
+}], DR, C["helpers"] & H>;
+//# sourceMappingURL=create-features-applier.d.ts.map
