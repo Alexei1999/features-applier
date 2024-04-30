@@ -190,17 +190,18 @@ export const createFeaturesApplier = <
           } as ModifierRunContext;
         };
 
-        return (originApplicant: any) =>
+        // FIXME: Broken types
+        return (originElement: any) =>
           pipeline(
             applier.item.apply(...applier.args),
             ...applier.modifiers.map(
-              (modifier) => (applicant: any) =>
+              (modifier) => (element: any) =>
                 modifier.item.apply(...modifier.args)(
                   options,
                   setModifierContext
-                )(applicant, originApplicant)
+                )(element, originElement)
             )
-          )(originApplicant);
+          )(originElement);
       })
     );
   } as any;

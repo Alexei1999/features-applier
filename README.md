@@ -21,7 +21,7 @@
 
 ## Introduction
 
-Features Applier is based on a systematic approach designed to enhance the development of complex React components. It emphasizes modularity, scalability, and maintainability, ensuring that components are robust and adaptable.
+Features Applier is based on a systematic approach designed to enhance the development of complex React components. It emphasizes modularity, scalability and maintainability, ensuring that components are robust and adaptable.
 
 ### Key Concepts of Features Applier
 
@@ -45,7 +45,7 @@ npm add features-applier
 
 ## Usage
 
-The features-applier library is designed to simplify the development process by enhancing React components with additional functionalities in a modular and maintainable way. Below is an example of how to apply some features to a React component.
+The features-applier library is designed to simplify the development process by enhancing React components with additional functionalities in a modular and maintainable way. Below is an example of how to apply some features to a React component:
 
 ```typescript
 import { applyFeatures } from "features-applier";
@@ -120,14 +120,16 @@ const withAuthentication = (Component) => (props) => {
 };
 
 // Enhance the component conditionally
-const EnhancedUserComponent = applyFeatures((builder) => {
-  builder
-    // Always apply the authentication HOC
-    .applyHooks(withAuthentication)
-    // Conditionally apply the admin hook
-    // based on the condition in the first parameter
-    .applyHOCs.filtered((props) => props.user === "Admin", useAdminFeatures);
-})(UserComponent);
+const EnhancedUserComponent = applyFeatures<{ isAuthenticated: boolean }>(
+  (builder) => {
+    builder
+      // Always apply the authentication HOC
+      .applyHooks(withAuthentication)
+      // Conditionally apply the admin hook
+      // based on the condition in the first argument
+      .applyHOCs.filtered((props) => props.user === "Admin", useAdminFeatures);
+  }
+)(UserComponent);
 
 // Usage of the enhanced component
 const App = () => <EnhancedUserComponent isAuthenticated={true} user="Admin" />;
@@ -152,7 +154,7 @@ const EnhancedComponent = applyFeatures((builder) => {
 
 ### Advanced Customization
 
-The `createFeaturesApplier` allows you to set up a custom feature application environment by defining custom `runners`, `appliers` and `modifiers`. This setup can be aligned with unique project requirements, enabling a more granular control over how features are applied across different applicants.
+The `createFeaturesApplier` allows you to set up a custom feature application environment by defining custom `runners`, `appliers` and `modifiers`. This setup can be aligned with unique project requirements, enabling a more granular control over how features are applied across various elements.
 
 Here’s how to create a custom instance of `applyFeatures` using `createFeaturesApplier` to provide specific behavior that is not covered by the default setup:
 
@@ -181,6 +183,8 @@ const customApplyFeatures = createFeaturesApplier({
 ```
 
 ### Example: Creating a Custom Runner
+
+Let's create a custom runner:
 
 ```typescript
 import { createFeaturesApplier } from "features-applier";
@@ -224,7 +228,7 @@ const applyFeatures = createFeaturesApplier({
 });
 ```
 
-Now, you can use your `simple` runner to apply features to components. Here's how you might use it:
+Now, you can use your simple runner as follows:
 
 ```typescript
 const useRawEnhancement = (Component) => (props) => {
