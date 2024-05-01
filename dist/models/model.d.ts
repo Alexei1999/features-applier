@@ -54,7 +54,9 @@ export type Builder<R extends Readonly<Runner[]> = any[], DR extends Runner = an
 }>["build"]>);
 export declare type FeaturesApplier<R extends Readonly<Runner[]>, DR extends R[number]["name"] | string, H> = <EP, CP = unknown>(featuresCallback: (builder: Builder<R, Extract<R[number], {
     name: DR;
-}>>, helpers: H) => void) => <P>(component: React.ComponentType<P>) => React.ComponentType<(CP extends {} ? CP : Omit<P, keyof EP>) & {
+}>>, helpers: H) => void) => <P>(component: React.ComponentType<P>) => React.ComponentType<(CP extends {} ? CP : {
+    [K in keyof P as K extends keyof EP ? never : K]: P[K];
+}) & {
     [K in keyof EP as EP[K] extends never ? never : K]: EP[K];
 }>;
 //# sourceMappingURL=model.d.ts.map
