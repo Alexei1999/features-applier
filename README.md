@@ -198,17 +198,17 @@ const getRunners = () => [
       };
 
       return {
-        applyAny: (...hooks: any[]) => {
+        applyAny: (...items: any[]) => {
           setRunConfig({
             // Set appliers
             appliers: [
               ...runConfig.appliers,
               {
-                args: hooks,
+                args: items,
                 modifiers: [],
                 item: {
                   name: "any",
-                  apply: (...HOCs: any[]) => pipeline(...HOCs),
+                  apply: (...items: any[]) => pipeline(...items),
                 },
               },
             ],
