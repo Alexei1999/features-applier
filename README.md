@@ -124,10 +124,10 @@ const EnhancedUserComponent = applyFeatures<{ isAuthenticated: boolean }>(
   (builder) => {
     builder
       // Always apply the authentication HOC
-      .applyHooks(withAuthentication)
+      .applyHOCs(withAuthentication)
       // Conditionally apply the admin hook
       // based on the condition in the first argument
-      .applyHOCs.filtered((props) => props.user === "Admin", useAdminFeatures);
+      .applyHooks.filtered((props) => props.user === "Admin", useAdminFeatures);
   }
 )(UserComponent);
 
@@ -198,17 +198,17 @@ const getRunners = () => [
       };
 
       return {
-        applyAny: (...hooks: any[]) => {
+        applyAny: (...items: any[]) => {
           setRunConfig({
             // Set appliers
             appliers: [
               ...runConfig.appliers,
               {
-                args: hooks,
+                args: items,
                 modifiers: [],
                 item: {
                   name: "any",
-                  apply: (...HOCs: any[]) => pipeline(...HOCs),
+                  apply: (...items: any[]) => pipeline(...items),
                 },
               },
             ],
