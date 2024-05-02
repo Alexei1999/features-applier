@@ -49,7 +49,10 @@ export type DirectBuilder<
 export const getRunners = (<
   A extends Readonly<Applier[]>,
   M extends Readonly<Modifier[]>
->() =>
+>(
+  _: A,
+  __: M
+) =>
   [
     {
       name: "sequential",

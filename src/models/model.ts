@@ -8,12 +8,6 @@ export type Applier<T extends any[] = any[]> = {
   ) => (component: React.ComponentType) => React.ComponentType<any>;
 };
 
-export type ModifierRunContext = Record<string, string | boolean | number>;
-export type ModifierRunOptions = {
-  context: ModifierRunContext;
-  applier: RunConfig["appliers"][number];
-};
-
 export type Modifier<T extends any[] = any[]> = {
   name: string;
   priority?: number;
@@ -27,6 +21,12 @@ export type Modifier<T extends any[] = any[]> = {
     component: React.ComponentType,
     originComponent: React.ComponentType
   ) => React.ComponentType<any>;
+};
+
+export type ModifierRunContext = Record<string, string | boolean | number>;
+export type ModifierRunOptions = {
+  context: ModifierRunContext;
+  applier: RunConfig["appliers"][number];
 };
 
 export type ModifierParams<T extends Modifier> = T["pickProps"] extends (
@@ -72,11 +72,17 @@ export type CreateRunners = <
   modifiers: M
 ) => Readonly<Runner[]>;
 
-export type FeatureApplierCore = {
-  appliers: Readonly<Applier[]>;
-  helpers: Record<string, (...args: any) => unknown>;
-  modifiers: Readonly<Modifier[]>;
-  getRunners: CreateRunners;
+export type FeatureApplierPlugin<
+  A extends Readonly<Applier[]> = Readonly<Applier[]>,
+  M extends Readonly<Modifier[]> = Readonly<Modifier[]>,
+  H extends Record<string, (...args: any) => unknown> = Record<
+    string,
+    (...args: any) => unknown
+  >
+> = {
+  appliers: A;
+  modifiers: M;
+  helpers: H;
 };
 
 export type Builder<

@@ -1,13 +1,12 @@
-import { MergeRunners, mergeWithDescriptors } from "./lib/common";
+import { mergeWithDescriptors } from "./lib/common";
 import { createCommonBuilder } from "./lib/create-common-builder";
 import { pipeline } from "./lib/pipeline";
-import { core } from "./models/core/index";
+import { core, defaultPlugin } from "./models/core/index";
 import { defaultProcessRun } from "./models/core/default-process-run";
 import {
   Applier,
   Builder,
-  CreateRunners,
-  FeatureApplierCore,
+  FeatureApplierPlugin,
   FeaturesApplier,
   Modifier,
   ModifierRunContext,
@@ -19,57 +18,37 @@ import {
 export const createFeaturesApplier = <
   A extends Readonly<Applier[]> = [],
   M extends Readonly<Modifier[]> = [],
-  R extends CreateRunners = () => [],
   H = Record<string, never>,
-  C extends FeatureApplierCore = typeof core,
-  DR extends MergeRunners<R, C["getRunners"]>[number]["name"] = MergeRunners<
-    R,
-    C["getRunners"]
-  >[0]["name"]
+  C extends FeatureApplierPlugin = typeof defaultPlugin,
+  R extends Readonly<Runner[]> = ReturnType<
+    typeof core.getRunners<[...C["appliers"], ...A], [...C["modifiers"], ...M]>
+  >,
+  DR extends R[number]["name"] = R[0]["name"]
 >({
   defaultRunner: outerDefaultRunner,
   appliers: outerAppliers,
   helpers: outerHelpers,
   modifiers: outerModifiers,
-  getRunners: outerRunnersGetter,
-  core: outerCore = core as any,
+  core: outerCore = defaultPlugin as any,
   processBuild = defaultProcessRun,
 }: {
   defaultRunner?: DR;
   appliers?: A;
   helpers?: H;
   modifiers?: M;
-  getRunners?: R;
   core?: C;
   processBuild?: (runsConfig: RunConfig[]) => RunConfig[];
-} & Record<string, boolean | string | number> = {}): FeaturesApplier<
-  ReturnType<
-    typeof outerRunnersGetter<
-      [...C["appliers"], ...A],
-      [...C["modifiers"], ...M]
-    > &
-      typeof core.getRunners<
-        [...C["appliers"], ...A],
-        [...C["modifiers"], ...M]
-      >
-  >,
-  DR,
-  C["helpers"] & H
-> => {
+} = {}): FeaturesApplier<R, DR, C["helpers"] & H> => {
   const {
     appliers: coreAppliers,
     helpers: coreHelpers,
     modifiers: coreModifiers,
-    getRunners: coreRunnersGetter,
-  } = outerCore || core || {};
+  } = outerCore || defaultPlugin || {};
 
   const appliers = [...(coreAppliers || []), ...(outerAppliers || [])];
   const modifiers = [...(coreModifiers || []), ...(outerModifiers || [])];
   const helpers = { ...coreHelpers, ...outerHelpers } as C["helpers"] & H;
-  const runners = [
-    ...(coreRunnersGetter?.(appliers, modifiers) || []),
-    ...(outerRunnersGetter?.(appliers, modifiers) || []),
-  ];
+  const runners = [...(core.getRunners?.(appliers, modifiers) || [])];
 
   if (!appliers.length) {
     throw Error(
@@ -84,7 +63,6 @@ export const createFeaturesApplier = <
 
   const defaultRunner = outerDefaultRunner ?? runners[0].name;
 
-  // FIXME: Broken types
   return function featuresApplier(featuresCallback) {
     const runsConfig: RunConfig[] = [];
 
@@ -112,7 +90,7 @@ export const createFeaturesApplier = <
 
             if (!runsConfig[idx]) {
               const runnerConfig: RunConfig = {
-                runner: runner,
+                runner,
                 appliers: [],
               };
               runsConfig.push(runnerConfig);
@@ -187,11 +165,11 @@ export const createFeaturesApplier = <
           } as ModifierRunContext;
         };
 
-        return (originElement: any) =>
+        return (originElement: React.ComponentType<any>) =>
           pipeline(
             applier.item.apply(...applier.args),
             ...applier.modifiers.map(
-              (modifier) => (element: any) =>
+              (modifier) => (element: React.ComponentType<any>) =>
                 modifier.item.apply(...modifier.args)(
                   options,
                   setModifierContext
