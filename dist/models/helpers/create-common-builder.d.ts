@@ -1,4 +1,5 @@
-import { RunConfig, Builder, Applier, Modifier } from "../models/model";
+import { Applier, Modifier } from "../types/core";
+import { Builder, RunConfig } from "../types/common";
 type CommonProps = {
     builder: Builder;
     initApplier: (...args: any[]) => any;

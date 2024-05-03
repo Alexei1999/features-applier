@@ -1,13 +1,13 @@
 /// <reference types="react" />
-import { createFeaturesApplier } from "./create-features-applier";
-declare const applyFeatures: import("./models/model").FeaturesApplier<readonly [{
+import { buildFeaturesApplier } from "./models/helpers/build-features-applier";
+declare const applyFeatures: import("./models/types/common").FeaturesApplier<[{
     readonly name: "sequential";
     readonly build: ({ helpers: { getCommonBuilder } }: {
-        runConfig: import("./models/model").RunConfig<import("./models/model").Runner<any>, import("./models/model").Applier<any[]>, any[]>;
-        setRunConfig: (nextRunConfig: Partial<import("./models/model").RunConfig<import("./models/model").Runner<any>, import("./models/model").Applier<any[]>, any[]>>) => void;
+        runConfig: import("./models/types/common").RunConfig;
+        setRunConfig: (nextRunConfig: Partial<import("./models/types/common").RunConfig>) => void;
         builder: any;
         helpers: Record<string, Function> & {
-            getCommonBuilder: (options?: import("./lib/create-common-builder").CommonBuilderProps) => any;
+            getCommonBuilder: (options?: import("./models/helpers/create-common-builder").CommonBuilderProps) => any;
         };
     }) => import("./models/core/runners").SequentialBuilder<[{
         readonly name: "hooks";
@@ -27,11 +27,11 @@ declare const applyFeatures: import("./models/model").FeaturesApplier<readonly [
 }, {
     readonly name: "direct";
     readonly build: ({ helpers: { getCommonBuilder } }: {
-        runConfig: import("./models/model").RunConfig<import("./models/model").Runner<any>, import("./models/model").Applier<any[]>, any[]>;
-        setRunConfig: (nextRunConfig: Partial<import("./models/model").RunConfig<import("./models/model").Runner<any>, import("./models/model").Applier<any[]>, any[]>>) => void;
+        runConfig: import("./models/types/common").RunConfig;
+        setRunConfig: (nextRunConfig: Partial<import("./models/types/common").RunConfig>) => void;
         builder: any;
         helpers: Record<string, Function> & {
-            getCommonBuilder: (options?: import("./lib/create-common-builder").CommonBuilderProps) => any;
+            getCommonBuilder: (options?: import("./models/helpers/create-common-builder").CommonBuilderProps) => any;
         };
     }) => import("./models/core/runners").DirectBuilder<[{
         readonly name: "hooks";
@@ -48,16 +48,16 @@ declare const applyFeatures: import("./models/model").FeaturesApplier<readonly [
         };
         readonly apply: (filter: (...args: any[]) => unknown) => () => (Component: import("react").ComponentType<{}>, OriginComponent: import("react").ComponentType<{}>) => (props: any) => JSX.Element;
     }]>;
-    readonly editRunConfig: (runConfig: import("./models/model").RunConfig<import("./models/model").Runner<any>, import("./models/model").Applier<any[]>, any[]>) => {
+    readonly editRunConfig: (runConfig: import("./models/types/common").RunConfig) => {
         appliers: {
             args: any;
             modifiers: any[];
-            item: import("./models/model").Applier<any[]>;
+            item: import("./models/types/core").Applier;
         }[];
-        runner: import("./models/model").Runner<any>;
+        runner: import("./models/types/core").Runner;
     };
 }], "direct", {
     readonly pipeline: typeof import("./lib/pipeline").pipeline;
-} & Record<string, never>>;
-export { applyFeatures, createFeaturesApplier };
+}>;
+export { applyFeatures, buildFeaturesApplier };
 //# sourceMappingURL=index.d.ts.map

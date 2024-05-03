@@ -1,4 +1,5 @@
-import { Applier, Modifier, ModifierParams, RunConfig } from "../model";
+import { ModifierParams, RunConfig } from "../types/common";
+import { Applier, Modifier } from "../types/core";
 export type BuildModifiersSequentially<A extends Readonly<Applier[]>, M extends Readonly<Modifier[]>> = {
     [K in M[number] as K["name"]]: ((...item: ModifierParams<K>) => BuildModifiersSequentially<A, M>) & BuildModifiersSequentially<A, M>;
 } & {
@@ -13,33 +14,33 @@ export type BuildModifiersDirectly<A extends Readonly<Applier[]>, M extends Read
 export type DirectBuilder<A extends Readonly<Applier[]>, M extends Readonly<Modifier[]>> = {
     [K in A[number] as `apply${Capitalize<K["name"]>}`]: ((...items: Parameters<K["apply"]>) => DirectBuilder<A, M>) & BuildModifiersDirectly<A, M>;
 };
-export declare const getRunners: <A extends readonly Applier[], M extends readonly Modifier[]>() => readonly [{
+export declare const getRunners: <A extends readonly Applier[], M extends readonly Modifier[]>(_: A, __: M) => [{
     readonly name: "sequential";
     readonly build: ({ helpers: { getCommonBuilder } }: {
-        runConfig: RunConfig<import("../model").Runner<any>, Applier<any[]>, any[]>;
-        setRunConfig: (nextRunConfig: Partial<RunConfig<import("../model").Runner<any>, Applier<any[]>, any[]>>) => void;
+        runConfig: RunConfig;
+        setRunConfig: (nextRunConfig: Partial<RunConfig>) => void;
         builder: any;
         helpers: Record<string, Function> & {
-            getCommonBuilder: (options?: import("../../lib/create-common-builder").CommonBuilderProps) => any;
+            getCommonBuilder: (options?: import("../helpers/create-common-builder").CommonBuilderProps) => any;
         };
     }) => SequentialBuilder<A, M>;
 }, {
     readonly name: "direct";
     readonly build: ({ helpers: { getCommonBuilder } }: {
-        runConfig: RunConfig<import("../model").Runner<any>, Applier<any[]>, any[]>;
-        setRunConfig: (nextRunConfig: Partial<RunConfig<import("../model").Runner<any>, Applier<any[]>, any[]>>) => void;
+        runConfig: RunConfig;
+        setRunConfig: (nextRunConfig: Partial<RunConfig>) => void;
         builder: any;
         helpers: Record<string, Function> & {
-            getCommonBuilder: (options?: import("../../lib/create-common-builder").CommonBuilderProps) => any;
+            getCommonBuilder: (options?: import("../helpers/create-common-builder").CommonBuilderProps) => any;
         };
     }) => DirectBuilder<A, M>;
-    readonly editRunConfig: (runConfig: RunConfig<import("../model").Runner<any>, Applier<any[]>, any[]>) => {
+    readonly editRunConfig: (runConfig: RunConfig) => {
         appliers: {
             args: any;
             modifiers: any[];
-            item: Applier<any[]>;
+            item: Applier;
         }[];
-        runner: import("../model").Runner<any>;
+        runner: import("../types/core").Runner;
     };
 }];
 //# sourceMappingURL=runners.d.ts.map
