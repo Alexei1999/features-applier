@@ -1,7 +1,12 @@
-import { createFeaturesApplier } from "./create-features-applier";
+import { buildFeaturesApplier } from "./models/helpers/build-features-applier";
 
-const applyFeatures = createFeaturesApplier({
-  defaultRunner: "direct",
-});
+const core = buildFeaturesApplier.getDefaults();
 
-export { applyFeatures, createFeaturesApplier };
+const applyFeatures = buildFeaturesApplier
+  .addPlugin(core.defaultPlugin)
+  .createRunners(core.getDefaultRunners)
+  .finish({
+    defaultRunner: "direct",
+  });
+
+export { applyFeatures, buildFeaturesApplier };

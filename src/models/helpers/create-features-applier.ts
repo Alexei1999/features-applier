@@ -1,55 +1,36 @@
-import { mergeWithDescriptors } from "./lib/common";
-import { createCommonBuilder } from "./lib/create-common-builder";
-import { pipeline } from "./lib/pipeline";
-import { core, defaultPlugin } from "./models/core/index";
-import { defaultProcessRun } from "./models/core/default-process-run";
+import { mergeWithDescriptors } from "../../lib/common";
+import { createCommonBuilder } from "./create-common-builder";
+import { pipeline } from "../../lib/pipeline";
+import { defaultProcessRun } from "./default-process-run";
+import { Applier, Modifier, Runner } from "../types/core";
+import { FeatureApplierBuilderOptions } from "./build-features-applier";
 import {
-  Applier,
-  Builder,
-  FeatureApplierPlugin,
   FeaturesApplier,
-  Modifier,
+  RunConfig,
+  Builder,
   ModifierRunContext,
   ModifierRunOptions,
-  RunConfig,
-  Runner,
-} from "./models/model";
+} from "../types/common";
 
-export const createFeaturesApplier = <
-  A extends Readonly<Applier[]> = [],
-  M extends Readonly<Modifier[]> = [],
-  H = Record<string, never>,
-  C extends FeatureApplierPlugin = typeof defaultPlugin,
-  R extends Readonly<Runner[]> = ReturnType<
-    typeof core.getRunners<[...C["appliers"], ...A], [...C["modifiers"], ...M]>
-  >,
-  DR extends R[number]["name"] = R[0]["name"]
->({
+export type CreateFeatureApplierProps = FeatureApplierBuilderOptions & {
+  runners: Runner[];
+  appliers: Applier[];
+  modifiers: Modifier[];
+  helpers: Record<string, (...args: any) => unknown>;
+};
+
+export const createFeaturesApplier = ({
+  appliers,
+  modifiers,
+  helpers,
+  runners,
   defaultRunner: outerDefaultRunner,
-  appliers: outerAppliers,
-  helpers: outerHelpers,
-  modifiers: outerModifiers,
-  core: outerCore = defaultPlugin as any,
   processBuild = defaultProcessRun,
-}: {
-  defaultRunner?: DR;
-  appliers?: A;
-  helpers?: H;
-  modifiers?: M;
-  core?: C;
-  processBuild?: (runsConfig: RunConfig[]) => RunConfig[];
-} = {}): FeaturesApplier<R, DR, C["helpers"] & H> => {
-  const {
-    appliers: coreAppliers,
-    helpers: coreHelpers,
-    modifiers: coreModifiers,
-  } = outerCore || defaultPlugin || {};
-
-  const appliers = [...(coreAppliers || []), ...(outerAppliers || [])];
-  const modifiers = [...(coreModifiers || []), ...(outerModifiers || [])];
-  const helpers = { ...coreHelpers, ...outerHelpers } as C["helpers"] & H;
-  const runners = [...(core.getRunners?.(appliers, modifiers) || [])];
-
+}: CreateFeatureApplierProps): FeaturesApplier<
+  Runner[],
+  string,
+  Record<string, (...args: any) => unknown>
+> => {
   if (!appliers.length) {
     throw Error(
       "No appliers provided. Ensure that at least one applier is specified when configuring the feature applier."

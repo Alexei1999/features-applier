@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Modifier } from "../model";
+import { Modifier } from "../types/core";
 
 export const modifiers = [
   {
@@ -24,4 +24,4 @@ export const modifiers = [
         };
       },
   },
-] as const satisfies Readonly<Modifier[]>;
+] as const satisfies Modifier[];

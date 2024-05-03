@@ -1,7 +1,7 @@
 import React from "react";
 
 import { pipeline } from "../../lib/pipeline";
-import { Applier } from "../model";
+import { Applier } from "../types/core";
 
 export const appliers = [
   {
@@ -25,4 +25,4 @@ export const appliers = [
       ) => React.ComponentType<any>)[]
     ) => pipeline(...HOCs),
   },
-] as const satisfies Readonly<Applier[]>;
+] as const satisfies Applier[];

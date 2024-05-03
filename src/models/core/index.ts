@@ -1,17 +1,14 @@
-import { FeatureApplierPlugin } from "../model";
+import { FeaturesApplierPlugin } from "../types/common";
 import { appliers } from "./appliers";
 import { helpers } from "./helpers";
 import { modifiers } from "./modifiers";
 import { getRunners } from "./runners";
 
-export const defaultPlugin = {
-  appliers,
-  helpers,
-  modifiers,
-  // TODO: 'Instantiation Expression' does not work correctly with dynamic types
-  // getRunners
-} as const satisfies FeatureApplierPlugin;
-
 export const core = {
-  getRunners,
+  getDefaultRunners: getRunners,
+  defaultPlugin: {
+    appliers,
+    helpers,
+    modifiers,
+  } as const satisfies FeaturesApplierPlugin,
 } as const;

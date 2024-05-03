@@ -1,5 +1,3 @@
-import { CreateRunners } from "../models/model";
-
 /**
  * Builder is an proxy, should be always the first argument of mergeWithDescriptors
  */

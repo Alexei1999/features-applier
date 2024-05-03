@@ -1,10 +1,5 @@
-import {
-  Applier,
-  CreateRunners,
-  Modifier,
-  ModifierParams,
-  RunConfig,
-} from "../model";
+import { ModifierParams, RunConfig, CreateRunners } from "../types/common";
+import { Applier, Modifier } from "../types/core";
 
 export type BuildModifiersSequentially<
   A extends Readonly<Applier[]>,

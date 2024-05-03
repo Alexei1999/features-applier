@@ -1,5 +1,6 @@
-import { RunConfig, Builder, Applier, Modifier } from "../models/model";
-import { capitalize, mergeWithDescriptors } from "./common";
+import { Applier, Modifier } from "../types/core";
+import { capitalize, mergeWithDescriptors } from "../../lib/common";
+import { Builder, RunConfig } from "../types/common";
 
 type CommonProps = { builder: Builder; initApplier: (...args: any[]) => any };
 type ModifierCommonProps = { modifiersMap: Record<string, any> } & CommonProps;

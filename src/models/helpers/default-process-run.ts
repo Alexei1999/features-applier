@@ -1,5 +1,5 @@
 import { pipeline } from "../../lib/pipeline";
-import { RunConfig } from "../model";
+import { RunConfig } from "../types/common";
 
 const splashRuns = (runsConfig: RunConfig[]): RunConfig[] => {
   return runsConfig.reduce((runsConfig, runConfig, index) => {
