@@ -95,7 +95,7 @@ This enhanced component renders a personalized greeting based on the time of day
 Features Applier includes these APIs
 
 - `applyFeatures()`: powerful tool for enhancing components by applying specified features. It provides a structured way to integrate enhancements such as hooks and higher-order components (HOCs).
-- `buildFeaturesApplier`: versatile factory method that allows to assemble any set of appliers, modifiers, and builder behaviors, allowing for extensive customization of how features are applied. Can serve as a foundational tool for building adaptable and scalable feature applications, accommodating a wide array of application needs beyond standard React component enhancement.
+- `buildFeaturesApplier`: builder method that allows to assemble any set of `appliers`, `modifiers`, and `builder` behaviors, allowing for extensive customization of how features are applied. Can serve as a foundational tool for building adaptable and scalable feature applications, accommodating a wide array of application needs beyond standard React component enhancement.
 
 ### Conditional Feature Application
 
@@ -183,7 +183,7 @@ Let's create a custom runner:
 ```typescript
 import { buildFeaturesApplier } from "features-applier";
 
-const getRunners = () =>
+const getCustomRunners = () =>
   [
     {
       name: "simple",
@@ -226,7 +226,7 @@ const core = buildFeaturesApplier.getDefaults();
 
 const applyFeatures = buildFeaturesApplier
   .addPlugin(core.defaultPlugin)
-  .createRunners(getRunners)
+  .createRunners(getCustomRunners)
   .finish();
 ```
 
