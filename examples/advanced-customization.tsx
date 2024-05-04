@@ -61,4 +61,5 @@ const EnhancedComponent = applyFeatures((builder) => {
   builder("simple").applyAny(useRawEnhancement);
 })(BasicComponent);
 
-export const App = () => <EnhancedComponent />;
+// @ts-ignore
+const App = () => <EnhancedComponent />;

@@ -34,6 +34,7 @@ const EnhancedUserComponent = applyFeatures<{ isAuthenticated: boolean }>(
 )(UserComponent);
 
 // Usage of the enhanced component
-export const App = () => (
+// @ts-ignore
+const App = () => (
   <EnhancedUserComponent isAuthenticated={true} user="Admin" />
 );

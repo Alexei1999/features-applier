@@ -19,4 +19,5 @@ const EnhancedComponent = applyFeatures((builder) => {
     .run(useEnhanceHook);
 })(BasicComponent);
 
-export const App = () => <EnhancedComponent />;
+// @ts-ignore
+const App = () => <EnhancedComponent />;

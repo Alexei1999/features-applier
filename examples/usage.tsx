@@ -28,4 +28,5 @@ const EnhancedGreetingComponent = applyFeatures<{ greeting: never }>(
 )(GreetingComponent);
 
 // Usage in your application
-export const App = () => <EnhancedGreetingComponent name="Username" />;
+// @ts-ignore
+const App = () => <EnhancedGreetingComponent name="Username" />;

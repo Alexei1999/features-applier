@@ -8,7 +8,7 @@
     "module": "esnext",
     "esModuleInterop": true,
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": true,
   },
   "exclude": ["./node_modules"],
   "include": ["./src/**/*", "./examples/**/*"]
