@@ -3,7 +3,7 @@
     "jsx": "react",
     "baseUrl": "./",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDirs": ["./examples", "./src"],
     "lib": ["dom", "esnext"],
     "module": "esnext",
     "esModuleInterop": true,
@@ -11,5 +11,5 @@
     "declarationMap": true
   },
   "exclude": ["./node_modules"],
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./examples/**/*"]
 }
