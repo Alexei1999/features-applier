@@ -6,6 +6,7 @@ import {
   RunConfig,
   Builder,
 } from "./common";
+import { CreateApplierConfig, CreateModifierConfig } from "src/lib/common";
 
 export type Applier<T extends any[] = any[]> = {
   name: string;
@@ -37,6 +38,8 @@ export type Runner<T = any> = {
     builder: Builder;
     helpers: Record<string, Function> & {
       getCommonBuilder: (options?: CommonBuilderProps) => any;
+      createApplierConfig: CreateApplierConfig;
+      createModifierConfig: CreateModifierConfig;
     };
   }) => T;
   editRunConfig?: (runConfig: RunConfig) => RunConfig;

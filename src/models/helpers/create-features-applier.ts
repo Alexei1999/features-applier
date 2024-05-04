@@ -1,4 +1,8 @@
-import { mergeWithDescriptors } from "../../lib/common";
+import {
+  createApplierConfig,
+  createModifierConfig,
+  mergeWithDescriptors,
+} from "../../lib/common";
 import { createCommonBuilder } from "./create-common-builder";
 import { pipeline } from "../../lib/pipeline";
 import { defaultProcessRun } from "./default-process-run";
@@ -95,6 +99,8 @@ export const createFeaturesApplier = ({
 
             const runHelpers = {
               getCommonBuilder,
+              createApplierConfig,
+              createModifierConfig,
               mergeWithDescriptors,
             };
             const runOptions = {
@@ -108,10 +114,10 @@ export const createFeaturesApplier = ({
           },
         }
       );
+
     const initialBuilder: Builder = new Proxy(
-      (runnerName: string) => {
-        return getBuilder(getRunner(runnerName), runsConfig.length);
-      },
+      (runnerName: string) =>
+        getBuilder(getRunner(runnerName), runsConfig.length),
       {
         get(_, prop) {
           return getBuilder(getRunner(defaultRunner), runsConfig.length)[prop];

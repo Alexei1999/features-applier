@@ -54,6 +54,7 @@ export const getRunners = (<
       build: ({ helpers: { getCommonBuilder } }) => {
         return getCommonBuilder({
           setModifierHelpers: ({ initApplier }) => ({ run: initApplier }),
+          setModifierReturn: ({ modifiersMap }) => modifiersMap,
         }) as SequentialBuilder<A, M>;
       },
     },

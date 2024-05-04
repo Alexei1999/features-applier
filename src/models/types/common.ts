@@ -13,20 +13,27 @@ export type ModifierParams<T extends Modifier> = T["pickProps"] extends (
   ? Parameters<Exclude<T["pickProps"], undefined>>
   : [];
 
+export type RunModifierConfig<T extends any[] = any[]> = {
+  item: Modifier<T>;
+  args: any[];
+};
+
+export type RunApplierConfig<
+  A extends Applier = Applier,
+  T extends any[] = any[]
+> = {
+  item: A;
+  args: any[];
+  modifiers: RunModifierConfig<T>[];
+};
+
 export type RunConfig<
   R extends Runner = Runner,
   A extends Applier = Applier,
   T extends any[] = any[]
 > = {
   runner: R;
-  appliers: {
-    item: A;
-    args: any[];
-    modifiers: {
-      item: Modifier<T>;
-      args: any[];
-    }[];
-  }[];
+  appliers: RunApplierConfig<A, T>[];
 };
 
 export type CreateRunners = <
@@ -60,23 +67,29 @@ export type Builder<
     runner: T
   ) => ReturnType<Extract<R[number], { name: T }>["build"]>);
 
+export type OverrideProps<
+  OP = undefined,
+  NP = undefined,
+  P = undefined
+> = NP extends undefined
+  ? OP extends undefined
+    ? P
+    : {
+        [K in keyof P as K extends keyof OP ? never : K]: P[K];
+      } & {
+        [K in keyof OP as OP[K] extends never ? never : K]: OP[K];
+      }
+  : NP;
+
 export declare type FeaturesApplier<
   R extends Readonly<Runner[]>,
   DR extends R[number]["name"] | string,
   H
-> = <NP = undefined, CP = undefined>(
+> = <OP = undefined, NP = undefined>(
   featuresCallback: (
     builder: Builder<R, Extract<R[number], { name: DR }>>,
     helpers: H
   ) => void
-) => <P>(component: React.ComponentType<P>) => React.ComponentType<
-  CP extends undefined
-    ? {
-        [K in keyof P as K extends keyof NP ? never : K]: P[K];
-      } & (NP extends undefined
-        ? never
-        : {
-            [K in keyof NP as NP[K] extends never ? never : K]: NP[K];
-          })
-    : CP
->;
+) => <P = undefined>(
+  component: React.ComponentType<P>
+) => React.ComponentType<OverrideProps<OP, NP, P>>;

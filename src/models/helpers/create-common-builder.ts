@@ -1,5 +1,9 @@
 import { Applier, Modifier } from "../types/core";
-import { capitalize, mergeWithDescriptors } from "../../lib/common";
+import {
+  capitalize,
+  mergeToProxy,
+  mergeWithDescriptors,
+} from "../../lib/common";
 import { Builder, RunConfig } from "../types/common";
 
 type CommonProps = { builder: Builder; initApplier: (...args: any[]) => any };
@@ -24,7 +28,7 @@ const commonBuilderDefault = {
   renameApplier: (name) => "apply" + capitalize(name),
   renameModifier: (name) => name,
   setModifierReturn: ({ builder, modifiersMap }) =>
-    mergeWithDescriptors(builder, modifiersMap),
+    mergeToProxy(builder, modifiersMap),
   setModifierInit: ({ initModifier, modifiersMap }) =>
     mergeWithDescriptors(initModifier, modifiersMap),
   setApplierReturn: ({ builder }) => builder,

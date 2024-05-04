@@ -95,7 +95,7 @@ This enhanced component renders a personalized greeting based on the time of day
 Features Applier includes these APIs
 
 - `applyFeatures()`: powerful tool for enhancing components by applying specified features. It provides a structured way to integrate enhancements such as hooks and higher-order components (HOCs).
-- `createFeaturesApplier()`: versatile factory method that allows to assemble any set of appliers and modifiers, allowing for customization of how features are applied. Can serve as a tool for building adaptable and scalable feature applications, accommodating a wide array of application needs.
+- `buildFeaturesApplier`: versatile factory method that allows to assemble any set of appliers, modifiers, and builder behaviors, allowing for extensive customization of how features are applied. Can serve as a foundational tool for building adaptable and scalable feature applications, accommodating a wide array of application needs beyond standard React component enhancement.
 
 ### Conditional Feature Application
 
@@ -154,29 +154,94 @@ const EnhancedComponent = applyFeatures((builder) => {
 
 ### Advanced Customization
 
-The `createFeaturesApplier` allows you to set up a custom feature application environment by defining custom `appliers` and `modifiers`. This setup can be aligned with unique project requirements, enabling a more granular control over how features are applied across various React components.
+The `buildFeaturesApplier` allows you to set up a custom feature application environment by defining custom `runners`, `appliers` and `modifiers`. This setup can be aligned with unique project requirements, enabling a more granular control over how features are applied across various elements.
 
-Here’s how to create a custom instance of `applyFeatures` using `createFeaturesApplier` to provide specific behavior that is not covered by the default setup:
+Here’s how to create a custom instance of `applyFeatures` using `buildFeaturesApplier` to provide specific behavior that is not covered by the default setup:
 
 ```typescript
 import { createFeaturesApplier } from "features-applier";
 
 // Custom configuration for a features applier
-const customApplyFeatures = createFeaturesApplier({
-  defaultRunner: "direct", // Define the default runner
-  appliers: [
-    /* Custom appliers */
-  ],
-  modifiers: [
-    /* Custom modifiers */
-  ],
-  helpers: {
+const customApplyFeatures = buildFeaturesApplier
+  .addModifiers(/* Custom modifiers */)
+  .addAppliers(/* Custom appliers */)
+  .addHelpers({
     /* Custom functions */
-  },
-  core: {
-    /* Default set of runners, appliers and modifiers */
-  },
-});
+  })
+  .createRunners(() => [
+    /* Custom runners logic */
+  ])
+  .finish({
+    defaultRunner: "direct",
+  });
 ```
+
+### Example: Creating a Custom Runner
+
+Let's create a custom runner:
+
+```typescript
+import { buildFeaturesApplier } from "features-applier";
+
+const getRunners = () =>
+  [
+    {
+      name: "simple",
+      build: ({
+        builder,
+        runConfig,
+        setRunConfig,
+        helpers: { createApplierConfig },
+      }) => {
+        type SimpleBuilder = {
+          applyAny: (...items: any[]) => SimpleBuilder;
+        };
+
+        return {
+          applyAny: (...items: any[]) => {
+            setRunConfig({
+              appliers: [
+                ...runConfig.appliers,
+                createApplierConfig(
+                  {
+                    name: "any",
+                    apply: pipeline,
+                  },
+                  {
+                    params: items,
+                  }
+                ),
+              ],
+            });
+
+            // Return the builder for chaining
+            return builder;
+          },
+        } as SimpleBuilder;
+      },
+    },
+  ] as const;
+
+const core = buildFeaturesApplier.getDefaults();
+
+const applyFeatures = buildFeaturesApplier
+  .addPlugin(core.defaultPlugin)
+  .createRunners(getRunners)
+  .finish();
+```
+
+Now, you can use your simple runner as follows:
+
+```typescript
+const useRawEnhancement = (Component) => (props) => {
+  return <Component {...props} />;
+};
+
+const EnhancedComponent = applyFeatures((builder) => {
+  builder("simple").applyAny(useRawEnhancement);
+})(BasicComponent);
+```
+
+The `buildFeaturesApplier` function transcends basic hooks and HOCs, enabling dynamic and scalable enhancements in project application architectures for improved modularity and maintainability.
 
 For more detailed examples, please see the [src/models/core](https://github.com/Alexei1999/features-applier/raw/master/src/models/core) directory of this project.
