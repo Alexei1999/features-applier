@@ -22,6 +22,8 @@ export declare const getRunners: <A extends readonly Applier[], M extends readon
         builder: any;
         helpers: Record<string, Function> & {
             getCommonBuilder: (options?: import("../helpers/create-common-builder").CommonBuilderProps) => any;
+            createApplierConfig: import("../../lib/common").CreateApplierConfig;
+            createModifierConfig: import("../../lib/common").CreateModifierConfig;
         };
     }) => SequentialBuilder<A, M>;
 }, {
@@ -32,6 +34,8 @@ export declare const getRunners: <A extends readonly Applier[], M extends readon
         builder: any;
         helpers: Record<string, Function> & {
             getCommonBuilder: (options?: import("../helpers/create-common-builder").CommonBuilderProps) => any;
+            createApplierConfig: import("../../lib/common").CreateApplierConfig;
+            createModifierConfig: import("../../lib/common").CreateModifierConfig;
         };
     }) => DirectBuilder<A, M>;
     readonly editRunConfig: (runConfig: RunConfig) => {

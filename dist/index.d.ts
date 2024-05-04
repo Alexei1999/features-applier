@@ -8,6 +8,8 @@ declare const applyFeatures: import("./models/types/common").FeaturesApplier<[{
         builder: any;
         helpers: Record<string, Function> & {
             getCommonBuilder: (options?: import("./models/helpers/create-common-builder").CommonBuilderProps) => any;
+            createApplierConfig: import("./lib/common").CreateApplierConfig;
+            createModifierConfig: import("./lib/common").CreateModifierConfig;
         };
     }) => import("./models/core/runners").SequentialBuilder<[{
         readonly name: "hooks";
@@ -32,6 +34,8 @@ declare const applyFeatures: import("./models/types/common").FeaturesApplier<[{
         builder: any;
         helpers: Record<string, Function> & {
             getCommonBuilder: (options?: import("./models/helpers/create-common-builder").CommonBuilderProps) => any;
+            createApplierConfig: import("./lib/common").CreateApplierConfig;
+            createModifierConfig: import("./lib/common").CreateModifierConfig;
         };
     }) => import("./models/core/runners").DirectBuilder<[{
         readonly name: "hooks";

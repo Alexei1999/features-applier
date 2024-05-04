@@ -8,6 +8,8 @@ export declare const core: {
             builder: any;
             helpers: Record<string, Function> & {
                 getCommonBuilder: (options?: import("../helpers/create-common-builder").CommonBuilderProps) => any;
+                createApplierConfig: import("../../lib/common").CreateApplierConfig;
+                createModifierConfig: import("../../lib/common").CreateModifierConfig;
             };
         }) => import("./runners").SequentialBuilder<A, M>;
     }, {
@@ -18,6 +20,8 @@ export declare const core: {
             builder: any;
             helpers: Record<string, Function> & {
                 getCommonBuilder: (options?: import("../helpers/create-common-builder").CommonBuilderProps) => any;
+                createApplierConfig: import("../../lib/common").CreateApplierConfig;
+                createModifierConfig: import("../../lib/common").CreateModifierConfig;
             };
         }) => import("./runners").DirectBuilder<A, M>;
         readonly editRunConfig: (runConfig: import("../types/common").RunConfig) => {
