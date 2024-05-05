@@ -242,6 +242,6 @@ const EnhancedComponent = applyFeatures((builder) => {
 })(BasicComponent);
 ```
 
-The `buildFeaturesApplier` function transcends basic hooks and HOCs, enabling dynamic and scalable enhancements in project application architectures for improved modularity and maintainability.
+The `buildFeaturesApplier` transcends basic hooks and HOCs, enabling dynamic and scalable enhancements in project application architectures for improved modularity and maintainability.
 
 For more detailed examples, please see the [src/models/core](https://github.com/Alexei1999/features-applier/raw/master/src/models/core) directory of this project.
