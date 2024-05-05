@@ -45,7 +45,7 @@ npm add features-applier
 
 ## Usage
 
-The features-applier library is designed to simplify the development process by enhancing React components with additional functionalities in a modular and maintainable way. Below is an example of how to apply some features to a React component:
+Below is an example of how to apply some features to a React component:
 
 ```typescript
 import { applyFeatures } from "features-applier";
@@ -82,7 +82,7 @@ const App = () => <EnhancedGreetingComponent name="Username" />;
 render(<App />, document.getElementById("root"));
 ```
 
-This enhanced component renders a personalized greeting based on the time of day, and applies specific styling. Below is the expected output in your application:
+Expected output in your application as follows:
 
 ```html
 <div id="root">
@@ -99,7 +99,7 @@ Features Applier includes these APIs
 
 ### Conditional Feature Application
 
-Using conditional logic, you can dynamically apply hooks and HOCs based on the props or the component's state with `filtered` modifier. This is particularly useful for features that should only be active under specific conditions, such as user permissions or application states.
+Using `filtered` modifier, you can dynamically apply hooks and HOCs based on the props or the component's state:
 
 ```typescript
 const UserComponent = ({ user, children }) => (
@@ -137,7 +137,7 @@ const App = () => <EnhancedUserComponent isAuthenticated={true} user="Admin" />;
 
 ### Alternative Builder Mode
 
-The `builder` supports an alternative mode of applying modifiers that is especially beneficial for integrating complex modifications logic. This mode, using the `"sequential" runner`, allows for precise feature application by chaining multiple modifiers in an explicit order.
+The `builder` supports an alternative mode of applying modifiers that is especially beneficial for integrating complex modifications logic by chaining multiple modifiers in an explicit order.
 
 ```typescript
 const EnhancedComponent = applyFeatures((builder) => {
@@ -241,7 +241,5 @@ const EnhancedComponent = applyFeatures((builder) => {
   builder("simple").applyAny(useRawEnhancement);
 })(BasicComponent);
 ```
-
-The `buildFeaturesApplier` transcends basic hooks and HOCs, enabling dynamic and scalable enhancements in project application architectures for improved modularity and maintainability.
 
 For more detailed examples, please see the [src/models/core](https://github.com/Alexei1999/features-applier/raw/master/src/models/core) directory of this project.
