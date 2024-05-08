@@ -6,6 +6,6 @@ export declare const modifiers: [{
         modifierProps: ((...args: any[]) => unknown)[];
         nextProps: any[];
     };
-    readonly apply: (filter: (...args: any[]) => unknown) => () => (Component: React.ComponentType<{}>, OriginComponent: React.ComponentType<{}>) => (props: any) => React.JSX.Element;
+    readonly apply: (filter: (...args: any[]) => unknown) => () => (Component: React.ComponentType<{}>, OriginComponent: React.ComponentType<{}>) => (props: any) => JSX.Element;
 }];
 //# sourceMappingURL=modifiers.d.ts.map

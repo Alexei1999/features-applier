@@ -36,7 +36,7 @@ export declare const core: {
     readonly defaultPlugin: {
         readonly appliers: [{
             readonly name: "hooks";
-            readonly apply: (...hooks: ((props: any) => Record<string, unknown>)[]) => (Component: import("react").ComponentType<{}>) => (props: any) => import("react").JSX.Element;
+            readonly apply: (...hooks: ((props: any) => Record<string, unknown>)[]) => (Component: import("react").ComponentType<{}>) => (props: any) => JSX.Element;
         }, {
             readonly name: "HOCs";
             readonly apply: (...HOCs: ((Component: import("react").ComponentType<any>) => import("react").ComponentType<any>)[]) => (Component: import("react").ComponentType<any>) => any;
@@ -51,7 +51,7 @@ export declare const core: {
                 modifierProps: ((...args: any[]) => unknown)[];
                 nextProps: any[];
             };
-            readonly apply: (filter: (...args: any[]) => unknown) => () => (Component: import("react").ComponentType<{}>, OriginComponent: import("react").ComponentType<{}>) => (props: any) => import("react").JSX.Element;
+            readonly apply: (filter: (...args: any[]) => unknown) => () => (Component: import("react").ComponentType<{}>, OriginComponent: import("react").ComponentType<{}>) => (props: any) => JSX.Element;
         }];
     };
 };
