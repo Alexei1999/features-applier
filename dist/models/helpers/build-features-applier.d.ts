@@ -1,16 +1,14 @@
-import { core } from "src/models/core/index";
-import { Applier, Modifier, Runner } from "src/models/types/core";
-import { RunConfig, FeaturesApplierPlugin, FeaturesApplier } from "../types/common";
-export type FeatureApplierBuilderOptions = {
-    processBuild?: (runsConfig: RunConfig[]) => RunConfig[];
-    defaultRunner?: string;
+import { core } from "../../models/core/index";
+import { Applier, FeatureApplierBuilderOptions, Modifier, Runner } from "../../models/types/core";
+import { FeaturesApplierPlugin, FeaturesApplier } from "../types/common";
+export type FeaturesApplierBuilderUtils = {
+    getDefaults: () => typeof core;
 };
 export type FeaturesApplierBuilder<R extends Runner[] = [], A extends Applier[] = [], M extends Modifier[] = [], H extends Record<string, (...args: any) => unknown> = {}> = {
     _runners: R;
     _appliers: A;
     _modifiers: M;
     _helpers: H;
-    getDefaults: () => typeof core;
     addHelpers: <P extends Record<string, (this: FeaturesApplierBuilder<R, A, M, H>, ...args: any) => unknown>>(helpers: P) => FeaturesApplierBuilder<R, A, M, H & P>;
     addModifiers: <P extends Modifier[]>(this: FeaturesApplierBuilder<R, A, M, H>, ...modifiers: P) => FeaturesApplierBuilder<R, A, [...M, ...P], H>;
     addAppliers: <P extends Applier[]>(this: FeaturesApplierBuilder<R, A, M, H>, ...appliers: P) => FeaturesApplierBuilder<R, [...A, ...P], M, H>;
@@ -20,5 +18,6 @@ export type FeaturesApplierBuilder<R extends Runner[] = [], A extends Applier[] 
         defaultRunner?: DR;
     }) => FeaturesApplier<R, DR, H>;
 };
-export declare const buildFeaturesApplier: FeaturesApplierBuilder<[], [], [], {}>;
+export type InitFeatureApplierBuilder = (() => FeaturesApplierBuilder) & FeaturesApplierBuilderUtils;
+export declare const buildFeaturesApplier: InitFeatureApplierBuilder;
 //# sourceMappingURL=build-features-applier.d.ts.map

@@ -1,7 +1,7 @@
 import React from "react";
 import { CommonBuilderProps } from "../helpers/create-common-builder";
 import { ModifierRunOptions, ModifierRunContext, RunConfig, Builder } from "./common";
-import { CreateApplierConfig, CreateModifierConfig } from "src/lib/common";
+import { CreateApplierConfig, CreateModifierConfig } from "../../lib/common";
 export type Applier<T extends any[] = any[]> = {
     name: string;
     apply: (...items: T) => (component: React.ComponentType) => React.ComponentType<any>;
@@ -28,5 +28,9 @@ export type Runner<T = any> = {
         };
     }) => T;
     editRunConfig?: (runConfig: RunConfig) => RunConfig;
+};
+export type FeatureApplierBuilderOptions = {
+    processBuild?: (runsConfig: RunConfig[]) => RunConfig[];
+    defaultRunner?: string;
 };
 //# sourceMappingURL=core.d.ts.map

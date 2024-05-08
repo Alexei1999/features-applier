@@ -13,7 +13,7 @@ declare const applyFeatures: import("./models/types/common").FeaturesApplier<[{
         };
     }) => import("./models/core/runners").SequentialBuilder<[{
         readonly name: "hooks";
-        readonly apply: (...hooks: ((props: any) => Record<string, unknown>)[]) => (Component: import("react").ComponentType<{}>) => (props: any) => JSX.Element;
+        readonly apply: (...hooks: ((props: any) => Record<string, unknown>)[]) => (Component: import("react").ComponentType<{}>) => (props: any) => import("react").JSX.Element;
     }, {
         readonly name: "HOCs";
         readonly apply: (...HOCs: ((Component: import("react").ComponentType<any>) => import("react").ComponentType<any>)[]) => (Component: import("react").ComponentType<any>) => any;
@@ -24,7 +24,7 @@ declare const applyFeatures: import("./models/types/common").FeaturesApplier<[{
             modifierProps: ((...args: any[]) => unknown)[];
             nextProps: any[];
         };
-        readonly apply: (filter: (...args: any[]) => unknown) => () => (Component: import("react").ComponentType<{}>, OriginComponent: import("react").ComponentType<{}>) => (props: any) => JSX.Element;
+        readonly apply: (filter: (...args: any[]) => unknown) => () => (Component: import("react").ComponentType<{}>, OriginComponent: import("react").ComponentType<{}>) => (props: any) => import("react").JSX.Element;
     }]>;
 }, {
     readonly name: "direct";
@@ -39,7 +39,7 @@ declare const applyFeatures: import("./models/types/common").FeaturesApplier<[{
         };
     }) => import("./models/core/runners").DirectBuilder<[{
         readonly name: "hooks";
-        readonly apply: (...hooks: ((props: any) => Record<string, unknown>)[]) => (Component: import("react").ComponentType<{}>) => (props: any) => JSX.Element;
+        readonly apply: (...hooks: ((props: any) => Record<string, unknown>)[]) => (Component: import("react").ComponentType<{}>) => (props: any) => import("react").JSX.Element;
     }, {
         readonly name: "HOCs";
         readonly apply: (...HOCs: ((Component: import("react").ComponentType<any>) => import("react").ComponentType<any>)[]) => (Component: import("react").ComponentType<any>) => any;
@@ -50,7 +50,7 @@ declare const applyFeatures: import("./models/types/common").FeaturesApplier<[{
             modifierProps: ((...args: any[]) => unknown)[];
             nextProps: any[];
         };
-        readonly apply: (filter: (...args: any[]) => unknown) => () => (Component: import("react").ComponentType<{}>, OriginComponent: import("react").ComponentType<{}>) => (props: any) => JSX.Element;
+        readonly apply: (filter: (...args: any[]) => unknown) => () => (Component: import("react").ComponentType<{}>, OriginComponent: import("react").ComponentType<{}>) => (props: any) => import("react").JSX.Element;
     }]>;
     readonly editRunConfig: (runConfig: import("./models/types/common").RunConfig) => {
         appliers: {
