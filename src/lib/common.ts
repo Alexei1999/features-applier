@@ -5,9 +5,9 @@ import {
 import { Applier, Modifier } from "../models/types/core";
 
 /**
- * Builder is an proxy, should be always the first argument of mergeWithDescriptors
+ * Builder is an proxy, should be always the first argument of assignObjectDescriptors
  */
-export const mergeWithDescriptors = <T extends {}, S extends {}[]>(
+export const assignObjectDescriptors = <T extends {}, S extends {}[]>(
   target: T,
   ...sources: S
 ) => {
@@ -24,7 +24,7 @@ export const mergeToProxy = <T extends {}, S extends {}>(
   proxy: T,
   source: S
 ) => {
-  const aggregation = { ...source };
+  const aggregation = assignObjectDescriptors({}, source);
 
   return new Proxy(aggregation, {
     get(target, prop) {

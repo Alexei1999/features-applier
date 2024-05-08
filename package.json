@@ -1,6 +1,6 @@
 {
   "name": "features-applier",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "A React library that streamlines the development of complex React components through modularity, composability and maintainability.",
   "main": "./dist/main.js",
   "types": "./dist/index.d.ts",
@@ -27,12 +27,13 @@
     "modular-react"
   ],
   "scripts": {
-    "build": "webpack --mode production --stats-error-details"
+    "build": "webpack --mode production"
   },
   "author": "alexei1999 <https://github.com/Alexei1999>",
   "license": "MIT",
   "devDependencies": {
-    "@types/react": "^18.3.1",
+    "react": "16.8.0",
+    "@types/react": "16.8.0",
     "eslint": "^9.2.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.29.1",
@@ -43,7 +44,8 @@
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4"
   },
-  "dependencies": {
-    "react": "^18.3.1"
+  "peerDependencies": {
+    "react": "^16.8.0",
+    "@types/react": "^16.8.0"
   }
 }

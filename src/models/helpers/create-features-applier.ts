@@ -1,7 +1,8 @@
+import React from "react";
 import {
   createApplierConfig,
   createModifierConfig,
-  mergeWithDescriptors,
+  assignObjectDescriptors,
 } from "../../lib/common";
 import { createCommonBuilder } from "./create-common-builder";
 import { pipeline } from "../../lib/pipeline";
@@ -105,7 +106,7 @@ export const createFeaturesApplier = ({
               getCommonBuilder,
               createApplierConfig,
               createModifierConfig,
-              mergeWithDescriptors,
+              assignObjectDescriptors,
             };
             const runOptions = {
               runConfig: currentConfig,

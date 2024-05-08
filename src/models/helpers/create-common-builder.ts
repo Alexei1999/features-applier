@@ -2,7 +2,7 @@ import { Applier, Modifier } from "../types/core";
 import {
   capitalize,
   mergeToProxy,
-  mergeWithDescriptors,
+  assignObjectDescriptors,
 } from "../../lib/common";
 import { Builder, RunConfig } from "../types/common";
 
@@ -30,10 +30,10 @@ const commonBuilderDefault = {
   setModifierReturn: ({ builder, modifiersMap }) =>
     mergeToProxy(builder, modifiersMap),
   setModifierInit: ({ initModifier, modifiersMap }) =>
-    mergeWithDescriptors(initModifier, modifiersMap),
+    assignObjectDescriptors(initModifier, modifiersMap),
   setApplierReturn: ({ builder }) => builder,
   setApplierInit: ({ initApplier, modifiersMap }) =>
-    mergeWithDescriptors(initApplier, modifiersMap),
+    assignObjectDescriptors(initApplier, modifiersMap),
 } as const satisfies CommonBuilderProps;
 
 export const createCommonBuilder =
@@ -62,7 +62,7 @@ export const createCommonBuilder =
   }: CommonBuilderProps = {}) => {
     return appliers.reduce(
       (appliers, applier) =>
-        mergeWithDescriptors(appliers, {
+        assignObjectDescriptors(appliers, {
           get [renameApplier(applier.name)]() {
             const applierConfig: RunConfig["appliers"][number] = {
               item: applier,
@@ -84,7 +84,7 @@ export const createCommonBuilder =
 
             const modifiersMap = modifiers.reduce(
               (modifiersAggregation, modifier) =>
-                mergeWithDescriptors(modifiersAggregation, {
+                assignObjectDescriptors(modifiersAggregation, {
                   get [renameModifier(modifier.name)]() {
                     const modifierConfig: RunConfig["appliers"][number]["modifiers"][number] =
                       {
