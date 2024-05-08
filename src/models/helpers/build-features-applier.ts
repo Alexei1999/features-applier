@@ -1,18 +1,17 @@
 import { createFeaturesApplier } from "src/models/helpers/create-features-applier";
 import { defaultProcessRun } from "src/models/helpers/default-process-run";
 import { core } from "src/models/core/index";
-import { Applier, Modifier, Runner } from "src/models/types/core";
 import {
-  RunConfig,
-  FeaturesApplierPlugin,
-  FeaturesApplier,
-} from "../types/common";
+  Applier,
+  FeatureApplierBuilderOptions,
+  Modifier,
+  Runner,
+} from "src/models/types/core";
+import { FeaturesApplierPlugin, FeaturesApplier } from "../types/common";
 
-export type FeatureApplierBuilderOptions = {
-  processBuild?: (runsConfig: RunConfig[]) => RunConfig[];
-  defaultRunner?: string;
+export type FeaturesApplierBuilderUtils = {
+  getDefaults: () => typeof core;
 };
-
 export type FeaturesApplierBuilder<
   R extends Runner[] = [],
   A extends Applier[] = [],
@@ -23,7 +22,6 @@ export type FeaturesApplierBuilder<
   _appliers: A;
   _modifiers: M;
   _helpers: H;
-  getDefaults: () => typeof core;
   addHelpers: <
     P extends Record<
       string,
@@ -59,55 +57,66 @@ export type FeaturesApplierBuilder<
   ) => FeaturesApplier<R, DR, H>;
 };
 
-const builder: FeaturesApplierBuilder = {
-  _runners: [] as const,
-  _appliers: [] as const,
-  _modifiers: [] as const,
-  _helpers: {} as const,
-  getDefaults: () => core,
-  addModifiers(...modifiers) {
-    return {
-      ...(this as any),
-      _modifiers: [...this._modifiers, ...modifiers],
-    };
-  },
-  addAppliers(...appliers) {
-    return {
-      ...(this as any),
-      _appliers: [...this._appliers, ...appliers],
-    };
-  },
-  addHelpers(helpers) {
-    return {
-      ...(this as any),
-      _helpers: { ...this._helpers, ...helpers },
-    };
-  },
-  addPlugin(plugin) {
-    return {
-      ...(this as any),
-      _modifiers: [...this._modifiers, ...plugin.modifiers],
-      _appliers: [...this._appliers, ...plugin.appliers],
-      _helpers: { ...this._helpers, ...plugin.helpers },
-    };
-  },
-  createRunners(crFn) {
-    return {
-      ...(this as any),
-      _runners: [...this._runners, ...crFn(this._appliers, this._modifiers)],
-    };
-  },
-  finish({ processBuild = defaultProcessRun, defaultRunner, ...options }) {
-    return createFeaturesApplier({
-      appliers: this._appliers,
-      modifiers: this._modifiers,
-      helpers: this._helpers,
-      runners: this._runners,
-      processBuild,
-      defaultRunner,
-      ...options,
-    });
-  },
-} as const;
+type InitFeatureApplierBuilder = (() => FeaturesApplierBuilder) &
+  FeaturesApplierBuilderUtils;
+
+const builder: InitFeatureApplierBuilder = Object.assign(
+  () =>
+    ({
+      _runners: [] as const,
+      _appliers: [] as const,
+      _modifiers: [] as const,
+      _helpers: {} as const,
+      addModifiers(...modifiers) {
+        return {
+          ...(this as any),
+          _modifiers: [...this._modifiers, ...modifiers],
+        };
+      },
+      addAppliers(...appliers) {
+        return {
+          ...(this as any),
+          _appliers: [...this._appliers, ...appliers],
+        };
+      },
+      addHelpers(helpers) {
+        return {
+          ...(this as any),
+          _helpers: { ...this._helpers, ...helpers },
+        };
+      },
+      addPlugin(plugin) {
+        return {
+          ...(this as any),
+          _modifiers: [...this._modifiers, ...plugin.modifiers],
+          _appliers: [...this._appliers, ...plugin.appliers],
+          _helpers: { ...this._helpers, ...plugin.helpers },
+        };
+      },
+      createRunners(crFn) {
+        return {
+          ...(this as any),
+          _runners: [
+            ...this._runners,
+            ...crFn(this._appliers, this._modifiers),
+          ],
+        };
+      },
+      finish({ processBuild = defaultProcessRun, defaultRunner, ...options }) {
+        return createFeaturesApplier({
+          appliers: this._appliers,
+          modifiers: this._modifiers,
+          helpers: this._helpers,
+          runners: this._runners,
+          processBuild,
+          defaultRunner,
+          ...options,
+        });
+      },
+    } as const),
+  {
+    getDefaults: () => core,
+  } as const
+) as InitFeatureApplierBuilder;
 
 export const buildFeaturesApplier = builder;

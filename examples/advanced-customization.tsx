@@ -48,7 +48,7 @@ const getCustomRunners = (() =>
 
 const core = buildFeaturesApplier.getDefaults();
 
-const applyFeatures = buildFeaturesApplier
+const applyFeatures = buildFeaturesApplier()
   .addPlugin(core.defaultPlugin)
   .createRunners(getCustomRunners)
   .finish();

@@ -2,7 +2,7 @@ import { buildFeaturesApplier } from "./models/helpers/build-features-applier";
 
 const core = buildFeaturesApplier.getDefaults();
 
-const applyFeatures = buildFeaturesApplier
+const applyFeatures = buildFeaturesApplier()
   .addPlugin(core.defaultPlugin)
   .createRunners(core.getDefaultRunners)
   .finish({

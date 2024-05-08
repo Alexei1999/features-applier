@@ -154,7 +154,7 @@ const EnhancedComponent = applyFeatures((builder) => {
 
 ### Advanced Customization
 
-The `buildFeaturesApplier` allows you to set up a custom feature application environment by defining custom `runners`, `appliers` and `modifiers`. This setup can be aligned with unique project requirements, enabling a more granular control over how features are applied across various elements.
+The `buildFeaturesApplier` method allows you to set up a custom feature application environment by defining custom `runners`, `appliers` and `modifiers`. This setup can be aligned with unique project requirements, enabling a more granular control over how features are applied across various elements.
 
 Here’s how to create a custom instance of `applyFeatures` using `buildFeaturesApplier` to provide specific behavior that is not covered by the default setup:
 
@@ -162,7 +162,7 @@ Here’s how to create a custom instance of `applyFeatures` using `buildFeatures
 import { createFeaturesApplier } from "features-applier";
 
 // Custom configuration for a features applier
-const customApplyFeatures = buildFeaturesApplier
+const customApplyFeatures = buildFeaturesApplier()
   .addModifiers(/* Custom modifiers */)
   .addAppliers(/* Custom appliers */)
   .addHelpers({
@@ -224,7 +224,7 @@ const getCustomRunners = () =>
 
 const core = buildFeaturesApplier.getDefaults();
 
-const applyFeatures = buildFeaturesApplier
+const applyFeatures = buildFeaturesApplier()
   .addPlugin(core.defaultPlugin)
   .createRunners(getCustomRunners)
   .finish();

@@ -6,8 +6,12 @@ import {
 import { createCommonBuilder } from "./create-common-builder";
 import { pipeline } from "../../lib/pipeline";
 import { defaultProcessRun } from "./default-process-run";
-import { Applier, Modifier, Runner } from "../types/core";
-import { FeatureApplierBuilderOptions } from "./build-features-applier";
+import {
+  Applier,
+  FeatureApplierBuilderOptions,
+  Modifier,
+  Runner,
+} from "../types/core";
 import {
   FeaturesApplier,
   RunConfig,
