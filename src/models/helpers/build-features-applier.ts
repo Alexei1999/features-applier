@@ -1,12 +1,12 @@
-import { createFeaturesApplier } from "src/models/helpers/create-features-applier";
-import { defaultProcessRun } from "src/models/helpers/default-process-run";
-import { core } from "src/models/core/index";
+import { createFeaturesApplier } from "../../models/helpers/create-features-applier";
+import { defaultProcessRun } from "../../models/helpers/default-process-run";
+import { core } from "../../models/core/index";
 import {
   Applier,
   FeatureApplierBuilderOptions,
   Modifier,
   Runner,
-} from "src/models/types/core";
+} from "../../models/types/core";
 import { FeaturesApplierPlugin, FeaturesApplier } from "../types/common";
 
 export type FeaturesApplierBuilderUtils = {
@@ -57,10 +57,10 @@ export type FeaturesApplierBuilder<
   ) => FeaturesApplier<R, DR, H>;
 };
 
-type InitFeatureApplierBuilder = (() => FeaturesApplierBuilder) &
+export type InitFeatureApplierBuilder = (() => FeaturesApplierBuilder) &
   FeaturesApplierBuilderUtils;
 
-const builder: InitFeatureApplierBuilder = Object.assign(
+export const buildFeaturesApplier: InitFeatureApplierBuilder = Object.assign(
   () =>
     ({
       _runners: [] as const,
@@ -113,10 +113,8 @@ const builder: InitFeatureApplierBuilder = Object.assign(
           ...options,
         });
       },
-    } as const),
+    } as const satisfies FeaturesApplierBuilder),
   {
     getDefaults: () => core,
-  } as const
-) as InitFeatureApplierBuilder;
-
-export const buildFeaturesApplier = builder;
+  } as const satisfies FeaturesApplierBuilderUtils
+) satisfies InitFeatureApplierBuilder;

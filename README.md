@@ -102,11 +102,7 @@ Features Applier includes these APIs
 Using `filtered` modifier, you can dynamically apply hooks and HOCs based on the props or the component's state:
 
 ```typescript
-const UserComponent = ({ user, children }) => (
-  <div>
-    Welcome, {user}! {children}
-  </div>
-);
+const UserComponent = ({ user }) => <div>Welcome, {user}!</div>;
 
 const useAdminFeatures = (props) => {
   return { ...props, adminProp: "Admin features active" };

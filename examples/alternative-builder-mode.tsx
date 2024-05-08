@@ -1,9 +1,11 @@
 import React from "react";
-import { applyFeatures } from "./index";
+import { applyFeatures } from "../src";
 
-const BasicComponent: React.ComponentType = ({ children }) => (
-  <div>{children}</div>
-);
+const BasicComponent: React.ComponentType = ({
+  children,
+}: {
+  children?: React.ReactNode;
+}) => <div>{children}</div>;
 
 const useEnhanceHook = (props) => {
   return { ...props };

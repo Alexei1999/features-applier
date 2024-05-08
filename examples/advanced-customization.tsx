@@ -1,11 +1,11 @@
 import React from "react";
-import { buildFeaturesApplier } from "./index";
-import { pipeline } from "./lib/pipeline";
-import { CreateRunners } from "./models/types/common";
+import { buildFeaturesApplier } from "../src";
+import { pipeline } from "../src/lib/pipeline";
+import { CreateRunners } from "../src/models/types/common";
 
-const BasicComponent: React.ComponentType = ({ children }) => (
-  <div>{children}</div>
-);
+const BasicComponent: React.ComponentType<{ children?: React.ReactNode }> = ({
+  children,
+}) => <div>{children}</div>;
 
 const getCustomRunners = (() =>
   [

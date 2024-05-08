@@ -1,13 +1,8 @@
 import React from "react";
-import { applyFeatures } from "./index";
+import { applyFeatures } from "../src";
 
-const UserComponent: React.ComponentType<{ user: string }> = ({
-  user,
-  children,
-}) => (
-  <div>
-    Welcome, {user}! {children}
-  </div>
+const UserComponent: React.ComponentType<{ user: string }> = ({ user }) => (
+  <div>Welcome, {user}!</div>
 );
 
 const useAdminFeatures = (props) => {
@@ -35,6 +30,4 @@ const EnhancedUserComponent = applyFeatures<{ isAuthenticated: boolean }>(
 
 // Usage of the enhanced component
 // @ts-ignore
-const App = () => (
-  <EnhancedUserComponent isAuthenticated={true} user="Admin" />
-);
+const App = () => <EnhancedUserComponent isAuthenticated={true} user="Admin" />;

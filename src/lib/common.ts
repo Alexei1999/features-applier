@@ -1,9 +1,8 @@
 import {
   RunApplierConfig,
-  RunConfig,
   RunModifierConfig,
-} from "src/models/types/common";
-import { Applier, Modifier } from "src/models/types/core";
+} from "../models/types/common";
+import { Applier, Modifier } from "../models/types/core";
 
 /**
  * Builder is an proxy, should be always the first argument of mergeWithDescriptors

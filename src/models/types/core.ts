@@ -6,7 +6,7 @@ import {
   RunConfig,
   Builder,
 } from "./common";
-import { CreateApplierConfig, CreateModifierConfig } from "src/lib/common";
+import { CreateApplierConfig, CreateModifierConfig } from "../../lib/common";
 
 export type Applier<T extends any[] = any[]> = {
   name: string;

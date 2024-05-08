@@ -1,5 +1,5 @@
 import React from "react";
-import { applyFeatures } from "./index";
+import { applyFeatures } from "../src";
 
 // Define a simple component that displays a message
 const GreetingComponent = ({ name, greeting, ...props }) => (
