@@ -29,4 +29,8 @@ export type Runner<T = any> = {
     }) => T;
     editRunConfig?: (runConfig: RunConfig) => RunConfig;
 };
+export type FeatureApplierBuilderOptions = {
+    processBuild?: (runsConfig: RunConfig[]) => RunConfig[];
+    defaultRunner?: string;
+};
 //# sourceMappingURL=core.d.ts.map
