@@ -1,6 +1,6 @@
-import { core } from "../../models/core/index";
-import { Applier, FeatureApplierBuilderOptions, Modifier, Runner } from "../../models/types/core";
-import { FeaturesApplierPlugin, FeaturesApplier } from "../types/common";
+import { core } from "../core/index";
+import { FeaturesApplier, FeaturesApplierPlugin } from "../types/common";
+import { Applier, FeatureApplierBuilderOptions, Modifier, Runner } from "../types/core";
 export type FeaturesApplierBuilderUtils = {
     getDefaults: () => typeof core;
 };

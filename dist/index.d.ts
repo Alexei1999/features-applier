@@ -6,7 +6,7 @@ declare const applyFeatures: import("./models/types/common").FeaturesApplier<[{
         runConfig: import("./models/types/common").RunConfig;
         setRunConfig: (nextRunConfig: Partial<import("./models/types/common").RunConfig>) => void;
         builder: any;
-        helpers: Record<string, Function> & {
+        helpers: Record<string, (...args: any[]) => unknown> & {
             getCommonBuilder: (options?: import("./models/helpers/create-common-builder").CommonBuilderProps) => any;
             createApplierConfig: import("./lib/common").CreateApplierConfig;
             createModifierConfig: import("./lib/common").CreateModifierConfig;
@@ -32,7 +32,7 @@ declare const applyFeatures: import("./models/types/common").FeaturesApplier<[{
         runConfig: import("./models/types/common").RunConfig;
         setRunConfig: (nextRunConfig: Partial<import("./models/types/common").RunConfig>) => void;
         builder: any;
-        helpers: Record<string, Function> & {
+        helpers: Record<string, (...args: any[]) => unknown> & {
             getCommonBuilder: (options?: import("./models/helpers/create-common-builder").CommonBuilderProps) => any;
             createApplierConfig: import("./lib/common").CreateApplierConfig;
             createModifierConfig: import("./lib/common").CreateModifierConfig;

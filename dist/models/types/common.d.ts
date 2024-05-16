@@ -1,5 +1,5 @@
 import React from "react";
-import { Modifier, Runner, Applier } from "./core";
+import { Applier, Modifier, Runner } from "./core";
 export type ModifierRunContext = Record<string, string | boolean | number>;
 export type ModifierRunOptions = {
     context: ModifierRunContext;
@@ -25,7 +25,7 @@ export type FeaturesApplierPlugin<A extends Applier[] = Applier[], M extends Mod
     modifiers: M;
     helpers: H;
 };
-export type Builder<R extends Readonly<Runner[]> = any[], DR extends Runner = any, U = Record<string, Function>> = U & ReturnType<DR["build"]> & (<T extends R[number]["name"]>(runner: T) => ReturnType<Extract<R[number], {
+export type Builder<R extends Readonly<Runner[]> = any[], DR extends Runner = any, U = Record<string, (...args: any[]) => unknown>> = U & ReturnType<DR["build"]> & (<T extends R[number]["name"]>(runner: T) => ReturnType<Extract<R[number], {
     name: T;
 }>["build"]>);
 export type OverrideProps<OP = undefined, NP = undefined, P = undefined> = NP extends undefined ? OP extends undefined ? P : {

@@ -1,5 +1,5 @@
-import { Applier, FeatureApplierBuilderOptions, Modifier, Runner } from "../types/core";
 import { FeaturesApplier } from "../types/common";
+import { Applier, FeatureApplierBuilderOptions, Modifier, Runner } from "../types/core";
 export type CreateFeatureApplierProps = FeatureApplierBuilderOptions & {
     runners: Runner[];
     appliers: Applier[];

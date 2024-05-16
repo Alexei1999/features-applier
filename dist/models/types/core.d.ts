@@ -1,7 +1,7 @@
 import React from "react";
-import { CommonBuilderProps } from "../helpers/create-common-builder";
-import { ModifierRunOptions, ModifierRunContext, RunConfig, Builder } from "./common";
 import { CreateApplierConfig, CreateModifierConfig } from "../../lib/common";
+import { CommonBuilderProps } from "../helpers/create-common-builder";
+import { Builder, ModifierRunContext, ModifierRunOptions, RunConfig } from "./common";
 export type Applier<T extends any[] = any[]> = {
     name: string;
     apply: (...items: T) => (component: React.ComponentType) => React.ComponentType<any>;
@@ -21,7 +21,7 @@ export type Runner<T = any> = {
         runConfig: RunConfig;
         setRunConfig: (nextRunConfig: Partial<RunConfig>) => void;
         builder: Builder;
-        helpers: Record<string, Function> & {
+        helpers: Record<string, (...args: any[]) => unknown> & {
             getCommonBuilder: (options?: CommonBuilderProps) => any;
             createApplierConfig: CreateApplierConfig;
             createModifierConfig: CreateModifierConfig;

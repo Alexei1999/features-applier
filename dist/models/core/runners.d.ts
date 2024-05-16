@@ -20,7 +20,7 @@ export declare const getRunners: <A extends readonly Applier[], M extends readon
         runConfig: RunConfig;
         setRunConfig: (nextRunConfig: Partial<RunConfig>) => void;
         builder: any;
-        helpers: Record<string, Function> & {
+        helpers: Record<string, (...args: any[]) => unknown> & {
             getCommonBuilder: (options?: import("../helpers/create-common-builder").CommonBuilderProps) => any;
             createApplierConfig: import("../../lib/common").CreateApplierConfig;
             createModifierConfig: import("../../lib/common").CreateModifierConfig;
@@ -32,7 +32,7 @@ export declare const getRunners: <A extends readonly Applier[], M extends readon
         runConfig: RunConfig;
         setRunConfig: (nextRunConfig: Partial<RunConfig>) => void;
         builder: any;
-        helpers: Record<string, Function> & {
+        helpers: Record<string, (...args: any[]) => unknown> & {
             getCommonBuilder: (options?: import("../helpers/create-common-builder").CommonBuilderProps) => any;
             createApplierConfig: import("../../lib/common").CreateApplierConfig;
             createModifierConfig: import("../../lib/common").CreateModifierConfig;

@@ -6,7 +6,7 @@ export declare const core: {
             runConfig: import("../types/common").RunConfig;
             setRunConfig: (nextRunConfig: Partial<import("../types/common").RunConfig>) => void;
             builder: any;
-            helpers: Record<string, Function> & {
+            helpers: Record<string, (...args: any[]) => unknown> & {
                 getCommonBuilder: (options?: import("../helpers/create-common-builder").CommonBuilderProps) => any;
                 createApplierConfig: import("../../lib/common").CreateApplierConfig;
                 createModifierConfig: import("../../lib/common").CreateModifierConfig;
@@ -18,7 +18,7 @@ export declare const core: {
             runConfig: import("../types/common").RunConfig;
             setRunConfig: (nextRunConfig: Partial<import("../types/common").RunConfig>) => void;
             builder: any;
-            helpers: Record<string, Function> & {
+            helpers: Record<string, (...args: any[]) => unknown> & {
                 getCommonBuilder: (options?: import("../helpers/create-common-builder").CommonBuilderProps) => any;
                 createApplierConfig: import("../../lib/common").CreateApplierConfig;
                 createModifierConfig: import("../../lib/common").CreateModifierConfig;
