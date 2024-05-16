@@ -95,7 +95,7 @@ Expected output in your application as follows:
 Features Applier includes these APIs
 
 - `applyFeatures()`: powerful tool for enhancing components by applying specified features. It provides a structured way to integrate enhancements such as hooks and higher-order components (HOCs).
-- `buildFeaturesApplier`: builder method that allows to assemble any set of `appliers`, `modifiers`, and `builder` behaviors, allowing for extensive customization of how features are applied. Can serve as a foundational tool for building adaptable and scalable feature applications, accommodating a wide array of application needs beyond standard React component enhancement.
+- `buildFeaturesApplier()`: builder method that allows to assemble any set of `appliers`, `modifiers`, and `builder` behaviors, allowing for extensive customization of how features are applied. Can serve as a foundational tool for building adaptable and scalable feature applications, accommodating a wide array of application needs beyond standard React component enhancement.
 
 ### Conditional Feature Application
 

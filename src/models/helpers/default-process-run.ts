@@ -67,7 +67,7 @@ const sortModifiers = (runsConfig: RunConfig[]): RunConfig[] => {
     appliers: runConfig.appliers.map((feature) => ({
       ...feature,
       modifiers: feature.modifiers.sort(
-        (m1, m2) => m1.item.priority ?? 0 - m2.item.priority ?? 0
+        (m1, m2) => (m1.item.priority ?? 0) - (m2.item.priority ?? 0)
       ),
     })),
   }));

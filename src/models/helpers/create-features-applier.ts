@@ -1,25 +1,27 @@
 import React from "react";
+
 import {
+  assignObjectDescriptors,
   createApplierConfig,
   createModifierConfig,
-  assignObjectDescriptors,
 } from "../../lib/common";
-import { createCommonBuilder } from "./create-common-builder";
 import { pipeline } from "../../lib/pipeline";
-import { defaultProcessRun } from "./default-process-run";
+import {
+  Builder,
+  FeaturesApplier,
+  ModifierRunContext,
+  ModifierRunOptions,
+  RunConfig,
+} from "../types/common";
 import {
   Applier,
   FeatureApplierBuilderOptions,
   Modifier,
   Runner,
 } from "../types/core";
-import {
-  FeaturesApplier,
-  RunConfig,
-  Builder,
-  ModifierRunContext,
-  ModifierRunOptions,
-} from "../types/common";
+
+import { createCommonBuilder } from "./create-common-builder";
+import { defaultProcessRun } from "./default-process-run";
 
 export type CreateFeatureApplierProps = FeatureApplierBuilderOptions & {
   runners: Runner[];

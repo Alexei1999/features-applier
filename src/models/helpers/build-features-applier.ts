@@ -1,13 +1,14 @@
-import { createFeaturesApplier } from "../../models/helpers/create-features-applier";
-import { defaultProcessRun } from "../../models/helpers/default-process-run";
-import { core } from "../../models/core/index";
+import { core } from "../core/index";
+import { FeaturesApplier, FeaturesApplierPlugin } from "../types/common";
 import {
   Applier,
   FeatureApplierBuilderOptions,
   Modifier,
   Runner,
-} from "../../models/types/core";
-import { FeaturesApplierPlugin, FeaturesApplier } from "../types/common";
+} from "../types/core";
+
+import { createFeaturesApplier } from "./create-features-applier";
+import { defaultProcessRun } from "./default-process-run";
 
 export type FeaturesApplierBuilderUtils = {
   getDefaults: () => typeof core;
@@ -16,6 +17,7 @@ export type FeaturesApplierBuilder<
   R extends Runner[] = [],
   A extends Applier[] = [],
   M extends Modifier[] = [],
+  // eslint-disable-next-line @typescript-eslint/ban-types
   H extends Record<string, (...args: any) => unknown> = {}
 > = {
   _runners: R;
@@ -41,6 +43,7 @@ export type FeaturesApplierBuilder<
   addPlugin: <
     PA extends Applier[] = [],
     PM extends Modifier[] = [],
+    // eslint-disable-next-line @typescript-eslint/ban-types
     PH extends Record<string, (...args: any) => unknown> = {}
   >(
     this: FeaturesApplierBuilder<R, A, M, H>,
@@ -102,7 +105,11 @@ export const buildFeaturesApplier: InitFeatureApplierBuilder = Object.assign(
           ],
         };
       },
-      finish({ processBuild = defaultProcessRun, defaultRunner, ...options }) {
+      finish({
+        processBuild = defaultProcessRun,
+        defaultRunner,
+        ...options
+      } = {}) {
         return createFeaturesApplier({
           appliers: this._appliers,
           modifiers: this._modifiers,

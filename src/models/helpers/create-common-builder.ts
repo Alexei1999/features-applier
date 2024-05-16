@@ -1,10 +1,10 @@
-import { Applier, Modifier } from "../types/core";
 import {
+  assignObjectDescriptors,
   capitalize,
   mergeToProxy,
-  assignObjectDescriptors,
 } from "../../lib/common";
 import { Builder, RunConfig } from "../types/common";
+import { Applier, Modifier } from "../types/core";
 
 type CommonProps = { builder: Builder; initApplier: (...args: any[]) => any };
 type ModifierCommonProps = { modifiersMap: Record<string, any> } & CommonProps;

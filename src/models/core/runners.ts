@@ -1,4 +1,4 @@
-import { ModifierParams, RunConfig, CreateRunners } from "../types/common";
+import { CreateRunners, ModifierParams, RunConfig } from "../types/common";
 import { Applier, Modifier } from "../types/core";
 
 export type BuildModifiersSequentially<
@@ -45,7 +45,9 @@ export const getRunners = (<
   A extends Readonly<Applier[]>,
   M extends Readonly<Modifier[]>
 >(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _: A,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   __: M
 ) =>
   [

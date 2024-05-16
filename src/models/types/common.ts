@@ -1,5 +1,6 @@
 import React from "react";
-import { Modifier, Runner, Applier } from "./core";
+
+import { Applier, Modifier, Runner } from "./core";
 
 export type ModifierRunContext = Record<string, string | boolean | number>;
 export type ModifierRunOptions = {
@@ -60,7 +61,7 @@ export type FeaturesApplierPlugin<
 export type Builder<
   R extends Readonly<Runner[]> = any[],
   DR extends Runner = any,
-  U = Record<string, Function>
+  U = Record<string, (...args: any[]) => unknown>
 > = U &
   ReturnType<DR["build"]> &
   (<T extends R[number]["name"]>(

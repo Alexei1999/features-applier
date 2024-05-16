@@ -1,13 +1,13 @@
-import {
-  RunApplierConfig,
-  RunModifierConfig,
-} from "../models/types/common";
+import { RunApplierConfig, RunModifierConfig } from "../models/types/common";
 import { Applier, Modifier } from "../models/types/core";
 
 /**
  * Builder is an proxy, should be always the first argument of assignObjectDescriptors
  */
-export const assignObjectDescriptors = <T extends {}, S extends {}[]>(
+export const assignObjectDescriptors = <
+  T extends NonNullable<unknown>,
+  S extends NonNullable<unknown>[]
+>(
   target: T,
   ...sources: S
 ) => {
@@ -20,7 +20,10 @@ export const assignObjectDescriptors = <T extends {}, S extends {}[]>(
 
   return target;
 };
-export const mergeToProxy = <T extends {}, S extends {}>(
+export const mergeToProxy = <
+  T extends NonNullable<unknown>,
+  S extends NonNullable<unknown>
+>(
   proxy: T,
   source: S
 ) => {
@@ -68,5 +71,5 @@ export const createModifierConfig: CreateModifierConfig = (
   { parameters }
 ): RunModifierConfig => ({
   item,
-  args: parameters,
+  args: parameters ?? [],
 });
