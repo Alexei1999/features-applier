@@ -1,6 +1,6 @@
 /// <reference types="react" />
 export declare const core: {
-    readonly getDefaultRunners: <A extends readonly import("../types/core").Applier[], M extends readonly import("../types/core").Modifier[]>(_: A, __: M) => [{
+    readonly getDefaultRunners: <A extends readonly import("../types/core").Applier[], M extends readonly import("../types/core").Modifier[], U extends import("../types/common").BuildMethodsConfig>(_: A, __: M, ___: U) => [{
         readonly name: "sequential";
         readonly build: ({ helpers: { getCommonBuilder } }: {
             runConfig: import("../types/common").RunConfig;
@@ -11,7 +11,7 @@ export declare const core: {
                 createApplierConfig: import("../../lib/common").CreateApplierConfig;
                 createModifierConfig: import("../../lib/common").CreateModifierConfig;
             };
-        }) => import("./runners").SequentialBuilder<A, M>;
+        }) => import("./runners").SequentialBuilder<A, M, U>;
     }, {
         readonly name: "direct";
         readonly build: ({ helpers: { getCommonBuilder } }: {
@@ -23,7 +23,7 @@ export declare const core: {
                 createApplierConfig: import("../../lib/common").CreateApplierConfig;
                 createModifierConfig: import("../../lib/common").CreateModifierConfig;
             };
-        }) => import("./runners").DirectBuilder<A, M>;
+        }) => import("./runners").DirectBuilder<A, M, U>;
         readonly editRunConfig: (runConfig: import("../types/common").RunConfig) => {
             appliers: {
                 args: any;
@@ -33,6 +33,14 @@ export declare const core: {
             runner: import("../types/core").Runner;
         };
     }];
+    readonly defaultBuildParams: {
+        readonly buildMethods: {
+            readonly use: ({ editRunsConfigs }: {
+                runsConfig: import("../types/common").RunConfig<import("../types/core").Runner, import("../types/core").Applier, any[]>[];
+                editRunsConfigs: (cb: (runsConfig: import("../types/common").RunConfig<import("../types/core").Runner, import("../types/core").Applier, any[]>[]) => import("../types/common").RunConfig<import("../types/core").Runner, import("../types/core").Applier, any[]>[]) => void;
+            }) => (nextRunsConfig: import("../types/common").RunConfig[]) => void;
+        };
+    };
     readonly defaultPlugin: {
         readonly appliers: [{
             readonly name: "hooks";
@@ -47,11 +55,16 @@ export declare const core: {
         readonly modifiers: [{
             readonly priority: 100;
             readonly name: "filtered";
-            readonly pickProps: (props_0: (...args: any[]) => unknown, ...args: any[]) => {
+            readonly editProps: (props_0: (...args: any[]) => unknown, ...args: any[]) => {
                 modifierProps: ((...args: any[]) => unknown)[];
                 nextProps: any[];
             };
             readonly apply: (filter: (...args: any[]) => unknown) => () => (Component: import("react").ComponentType<{}>, OriginComponent: import("react").ComponentType<{}>) => (props: any) => JSX.Element;
+        }, {
+            readonly name: "fromRight";
+            readonly editProps: (...args: any[]) => {
+                nextProps: any[];
+            };
         }];
     };
 };

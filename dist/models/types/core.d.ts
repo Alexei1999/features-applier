@@ -9,11 +9,11 @@ export type Applier<T extends any[] = any[]> = {
 export type Modifier<T extends any[] = any[]> = {
     name: string;
     priority?: number;
-    pickProps?: (...props: any[]) => {
+    editProps?: (...props: any[]) => {
         modifierProps?: T;
         nextProps: any[];
     };
-    apply: (...props: T) => (options: ModifierRunOptions, setContext: (nextContext: Partial<ModifierRunContext>) => void) => (component: React.ComponentType, originComponent: React.ComponentType) => React.ComponentType<any>;
+    apply?: (...args: T) => (options: ModifierRunOptions, setContext: (nextContext: Partial<ModifierRunContext>) => void) => (component: React.ComponentType, originComponent: React.ComponentType) => React.ComponentType<any>;
 };
 export type Runner<T = any> = {
     readonly name: string;
@@ -29,8 +29,14 @@ export type Runner<T = any> = {
     }) => T;
     editRunConfig?: (runConfig: RunConfig) => RunConfig;
 };
-export type FeatureApplierBuilderOptions = {
-    processBuild?: (runsConfig: RunConfig[]) => RunConfig[];
+export type CommonFeaturesMethodsOptions = {
     defaultRunner?: string;
 };
+export type FeatureApplierCreateBuilderOptions = {
+    defaultRunner: string;
+};
+export type FeatureApplierOptions = CommonFeaturesMethodsOptions & {
+    processBuild?: (runsConfig: RunConfig[]) => RunConfig[];
+};
+export type FeatureApplierBuilderOptions = CommonFeaturesMethodsOptions;
 //# sourceMappingURL=core.d.ts.map
