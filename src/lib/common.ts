@@ -1,8 +1,9 @@
+import { ExtractBuildMethodsParams } from "../models/helpers/create-common-builder";
 import { RunApplierConfig, RunModifierConfig } from "../models/types/common";
 import { Applier, Modifier } from "../models/types/core";
 
 /**
- * Builder is an proxy, should be always the first argument of assignObjectDescriptors
+ * As `builder` is an proxy, is should be always the first argument of assignObjectDescriptors
  */
 export const assignObjectDescriptors = <
   T extends NonNullable<unknown>,
@@ -20,16 +21,14 @@ export const assignObjectDescriptors = <
 
   return target;
 };
-export const mergeToProxy = <
+export const assignToProxy = <
   T extends NonNullable<unknown>,
   S extends NonNullable<unknown>
 >(
   proxy: T,
   source: S
-) => {
-  const aggregation = assignObjectDescriptors({}, source);
-
-  return new Proxy(aggregation, {
+) =>
+  new Proxy(assignObjectDescriptors({}, source, proxy), {
     get(target, prop) {
       if (target.hasOwnProperty(prop)) {
         return target[prop];
@@ -38,7 +37,6 @@ export const mergeToProxy = <
       return proxy[prop];
     },
   });
-};
 
 export const capitalize = (str: string = "", lowerRest = false): string =>
   str.slice(0, 1).toUpperCase() +
@@ -63,7 +61,9 @@ export const createApplierConfig: CreateApplierConfig = (
 export type CreateModifierConfig = (
   item: Modifier,
   options: {
-    parameters?: Parameters<Modifier["apply"]>;
+    parameters?: Modifier["apply"] extends undefined
+      ? undefined
+      : Parameters<Exclude<Modifier["apply"], undefined>>;
   }
 ) => RunModifierConfig;
 export const createModifierConfig: CreateModifierConfig = (
@@ -73,3 +73,25 @@ export const createModifierConfig: CreateModifierConfig = (
   item,
   args: parameters ?? [],
 });
+
+export const extractBuildMethods = ({
+  buildMethods,
+  runsConfig,
+  setRunsConfig,
+  builder,
+  ...props
+}: ExtractBuildMethodsParams) =>
+  Object.fromEntries(
+    Object.entries(buildMethods).map(([key, method]) => [
+      key,
+      (...args: any) => {
+        method({
+          runsConfig,
+          editRunsConfigs: (cb: Function) => setRunsConfig(cb(runsConfig)),
+          ...props,
+        })(...args);
+
+        return builder;
+      },
+    ])
+  );

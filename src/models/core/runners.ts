@@ -1,54 +1,67 @@
-import { CreateRunners, ModifierParams, RunConfig } from "../types/common";
+import {
+  BuildMethods,
+  BuildMethodsConfig,
+  CreateRunners,
+  ModifierParams,
+  RunConfig,
+} from "../types/common";
 import { Applier, Modifier } from "../types/core";
 
 export type BuildModifiersSequentially<
   A extends Readonly<Applier[]>,
-  M extends Readonly<Modifier[]>
+  M extends Readonly<Modifier[]>,
+  U extends BuildMethodsConfig
 > = {
   [K in M[number] as K["name"]]: ((
     ...item: ModifierParams<K>
-  ) => BuildModifiersSequentially<A, M>) &
-    BuildModifiersSequentially<A, M>;
+  ) => BuildModifiersSequentially<A, M, U>) &
+    BuildModifiersSequentially<A, M, U>;
 } & {
-  run: (...items: Parameters<A[number]["apply"]>) => SequentialBuilder<A, M>;
+  run: (...items: Parameters<A[number]["apply"]>) => SequentialBuilder<A, M, U>;
 };
 export type SequentialBuilder<
   A extends Readonly<Applier[]>,
-  M extends Readonly<Modifier[]>
+  M extends Readonly<Modifier[]>,
+  U extends BuildMethodsConfig
 > = {
   [K in A[number] as `apply${Capitalize<K["name"]>}`]: ((
     ...items: Parameters<K["apply"]>
-  ) => SequentialBuilder<A, M>) &
-    BuildModifiersSequentially<A, M>;
-};
+  ) => SequentialBuilder<A, M, U>) &
+    BuildModifiersSequentially<A, M, U>;
+} & BuildMethods<U, { builder: SequentialBuilder<A, M, U> }>;
 
 export type BuildModifiersDirectly<
   A extends Readonly<Applier[]>,
-  M extends Readonly<Modifier[]>
+  M extends Readonly<Modifier[]>,
+  U extends BuildMethodsConfig
 > = {
   [K in M[number] as K["name"]]: ((
     ...items: ModifierParams<K>
-  ) => DirectBuilder<A, M>) &
-    BuildModifiersDirectly<A, M>;
+  ) => DirectBuilder<A, M, U>) &
+    BuildModifiersDirectly<A, M, U>;
 };
 export type DirectBuilder<
   A extends Readonly<Applier[]>,
-  M extends Readonly<Modifier[]>
+  M extends Readonly<Modifier[]>,
+  U extends BuildMethodsConfig
 > = {
   [K in A[number] as `apply${Capitalize<K["name"]>}`]: ((
     ...items: Parameters<K["apply"]>
-  ) => DirectBuilder<A, M>) &
-    BuildModifiersDirectly<A, M>;
-};
+  ) => DirectBuilder<A, M, U>) &
+    BuildModifiersDirectly<A, M, U>;
+} & BuildMethods<U, { builder: DirectBuilder<A, M, U> }>;
 
 export const getRunners = (<
   A extends Readonly<Applier[]>,
-  M extends Readonly<Modifier[]>
+  M extends Readonly<Modifier[]>,
+  U extends BuildMethodsConfig
 >(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _: A,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  __: M
+  __: M,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  ___: U
 ) =>
   [
     {
@@ -57,13 +70,13 @@ export const getRunners = (<
         return getCommonBuilder({
           setModifierHelpers: ({ initApplier }) => ({ run: initApplier }),
           setModifierReturn: ({ modifiersMap }) => modifiersMap,
-        }) as SequentialBuilder<A, M>;
+        }) as SequentialBuilder<A, M, U>;
       },
     },
     {
       name: "direct",
       build: ({ helpers: { getCommonBuilder } }) => {
-        return getCommonBuilder() as DirectBuilder<A, M>;
+        return getCommonBuilder() as DirectBuilder<A, M, U>;
       },
       editRunConfig: (runConfig) => ({
         ...runConfig,
@@ -71,7 +84,7 @@ export const getRunners = (<
           ...applier,
           ...applier.modifiers.reduce(
             ({ args: nextArgs, modifiers }, modifier: any) => {
-              const { modifierProps, nextProps } = modifier.item.pickProps?.(
+              const { modifierProps, nextProps } = modifier.item.editProps?.(
                 ...nextArgs
               ) ?? {
                 modifierProps: [],

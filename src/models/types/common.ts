@@ -8,10 +8,10 @@ export type ModifierRunOptions = {
   applier: RunConfig["appliers"][number];
 };
 
-export type ModifierParams<T extends Modifier> = T["pickProps"] extends (
+export type ModifierParams<T extends Modifier> = T["editProps"] extends (
   ...args: any[]
 ) => unknown
-  ? Parameters<Exclude<T["pickProps"], undefined>>
+  ? Parameters<Exclude<T["editProps"], undefined>>
   : [];
 
 export type RunModifierConfig<T extends any[] = any[]> = {
@@ -39,10 +39,12 @@ export type RunConfig<
 
 export type CreateRunners = <
   A extends Applier[] = any[],
-  M extends Modifier[] = any[]
+  M extends Modifier[] = any[],
+  U extends BuildMethodsConfig = {}
 >(
   appliers: A,
-  modifiers: M
+  modifiers: M,
+  buildMethods: U
 ) => Runner[];
 
 export type FeaturesApplierPlugin<
@@ -67,6 +69,22 @@ export type Builder<
   (<T extends R[number]["name"]>(
     runner: T
   ) => ReturnType<Extract<R[number], { name: T }>["build"]>);
+
+export type BuildMethodsConfig = Record<
+  string,
+  (options: {
+    runsConfig: RunConfig[];
+    editRunsConfigs: (cb: (runsConfig: RunConfig[]) => RunConfig[]) => void;
+  }) => (...args: any[]) => void
+>;
+
+// { builder: any } is workaround for circular type call
+export type BuildMethods<
+  T extends BuildMethodsConfig,
+  G extends { builder: any }
+> = {
+  [K in keyof T]: (...params: Parameters<ReturnType<T[K]>>) => G["builder"];
+};
 
 export type OverrideProps<
   OP = undefined,
@@ -94,3 +112,14 @@ export declare type FeaturesApplier<
 ) => <P = undefined>(
   component: React.ComponentType<P>
 ) => React.ComponentType<OverrideProps<OP, NP, P>>;
+
+export declare type FeaturesBuilder<
+  R extends Readonly<Runner[]>,
+  DR extends R[number]["name"] | string,
+  H
+> = (
+  featuresCallback: (
+    builder: Builder<R, Extract<R[number], { name: DR }>>,
+    helpers: H
+  ) => void
+) => RunConfig[];

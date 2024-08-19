@@ -14,6 +14,7 @@
 - [Advanced Usage](#advanced-usage)
   - [Conditional Feature Application](#conditional-feature-application)
   - [Alternative Builder Mode](#alternative-builder-mode)
+  - [Creating Reusable Features](#creating-reusable-features)
   - [Advanced Customization](#advanced-customization)
   - [Example: Creating a Custom Runner](#example-creating-a-custom-runner)
 
@@ -148,6 +149,46 @@ const EnhancedComponent = applyFeatures((builder) => {
 
 > **Note:** The modifiers `debounced` and `throttled` are conceptual illustrations and not implemented in the current version of Features Applier. You can add it on your own; see [Advanced Customization](#advanced-customization) for more information
 
+### Creating Reusable Features
+
+You can use `buildFeatures` to create standalone features that encapsulate specific enhancements, such as higher-order components (HOCs) or hooks. These feature sets can then be applied to components through `applyFeatures`.
+
+```javascript
+import React from "react";
+import { applyFeatures, buildFeatures } from "../src";
+
+const GreetingComponent = ({ name, greeting, ...props }) => (
+  <div {...props}>
+    {greeting}, {name}!
+  </div>
+);
+
+const useTimeOfDayGreeting = (props) => {
+  const hour = new Date().getHours();
+  const timeOfDay = hour < 12 ? "Morning" : hour < 18 ? "Afternoon" : "Evening";
+  return { ...props, greeting: `Good ${timeOfDay}` };
+};
+
+const withStyling = (Component) => (props) =>
+  <Component {...props} style={{ color: "blue", fontWeight: "bold" }} />;
+
+// Build reusable styling feature
+const styling = buildFeatures((builder) => {
+  builder.applyHOCs(withStyling);
+});
+
+// Apply enhancements to the GreetingComponent
+const EnhancedGreetingComponent =
+  applyFeatures <
+  { greeting: never } >
+  ((builder) => {
+    builder.use(styling).applyHooks(useTimeOfDayGreeting);
+  })(GreetingComponent);
+
+// Usage in your application
+const App = () => <EnhancedGreetingComponent name="Username" />;
+```
+
 ### Advanced Customization
 
 The `buildFeaturesApplier` method allows you to set up a custom feature application environment by defining custom `runners`, `appliers` and `modifiers`. This setup can be aligned with unique project requirements, enabling a more granular control over how features are applied across various elements.
@@ -158,7 +199,7 @@ Here’s how to create a custom instance of `applyFeatures` using `buildFeatures
 import { createFeaturesApplier } from "features-applier";
 
 // Custom configuration for a features applier
-const customApplyFeatures = buildFeaturesApplier()
+const { applyFeatures: customApplyFeatures } = buildFeaturesApplier()
   .addModifiers(/* Custom modifiers */)
   .addAppliers(/* Custom appliers */)
   .addHelpers({
@@ -220,7 +261,7 @@ const getCustomRunners = () =>
 
 const core = buildFeaturesApplier.getDefaults();
 
-const applyFeatures = buildFeaturesApplier()
+const { applyFeatures } = buildFeaturesApplier()
   .addPlugin(core.defaultPlugin)
   .createRunners(getCustomRunners)
   .finish();

@@ -48,7 +48,7 @@ const getCustomRunners = (() =>
 
 const core = buildFeaturesApplier.getDefaults();
 
-const applyFeatures = buildFeaturesApplier()
+const { applyFeatures } = buildFeaturesApplier()
   .addPlugin(core.defaultPlugin)
   .createRunners(getCustomRunners)
   .finish();
@@ -61,5 +61,7 @@ const EnhancedComponent = applyFeatures((builder) => {
   builder("simple").applyAny(useRawEnhancement);
 })(BasicComponent);
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const App = () => <EnhancedComponent />;

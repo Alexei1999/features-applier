@@ -6,7 +6,7 @@ export const modifiers = [
   {
     priority: 100,
     name: "filtered",
-    pickProps: (...props: [(...args: any[]) => unknown, ...args: any[]]) => {
+    editProps: (...props: [(...args: any[]) => unknown, ...args: any[]]) => {
       const [filter, ...nextProps] = props;
 
       return { modifierProps: [filter], nextProps };
@@ -23,5 +23,11 @@ export const modifiers = [
           return <OriginComponent {...props} />;
         };
       },
+  },
+  {
+    name: "fromRight",
+    editProps: (...args: any[]) => {
+      return { nextProps: args.reverse() };
+    },
   },
 ] as const satisfies Modifier[];

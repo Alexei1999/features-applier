@@ -29,5 +29,7 @@ const EnhancedUserComponent = applyFeatures<{ isAuthenticated: boolean }>(
 )(UserComponent);
 
 // Usage of the enhanced component
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const App = () => <EnhancedUserComponent isAuthenticated={true} user="Admin" />;
