@@ -1,6 +1,6 @@
 {
   "name": "features-applier",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "A React library that streamlines the development of complex React components through modularity, composability and maintainability.",
   "main": "./dist/main.js",
   "types": "./dist/index.d.ts",
